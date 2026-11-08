@@ -2,208 +2,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b70">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123c69">
+<title>CONNAISSANCES+</title>
 
-  <title>CONNAISSANCES+ | Le savoir ouvre toutes les portes</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f5fa;
-      color: #172b4d;
-    }
-
-    header {
-      background: #123b70;
-      color: white;
-      padding: 30px 16px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    header p {
-      margin: 8px 0 0;
-    }
-
-    main {
-      max-width: 520px;
-      margin: 30px auto;
-      padding: 16px;
-    }
-
-    .panel {
-      background: white;
-      padding: 24px;
-      border-radius: 14px;
-      box-shadow: 0 3px 15px #00000012;
-      text-align: center;
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      border: 0;
-      border-radius: 9px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .google-btn {
-      background: white;
-      color: #263238;
-      border: 1px solid #ccd5e2;
-    }
-
-    .logout-btn {
-      background: #123b70;
-      color: white;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    #message {
-      padding: 10px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #65748b;
-      font-size: 13px;
-    }
-  </style>
+<style>
+:root {
+  --blue:#123c69;
+  --blue2:#1d5d96;
+  --light:#f2f6fb;
+  --white:#fff;
+  --text:#203047;
+  --green:#16845b;
+  --red:#c0392b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+header{
+  background:var(--blue);
+  color:white;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+header h2{margin:0}
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.primary{background:var(--blue2);color:white}
+.danger{background:var(--red);color:white}
+.success{background:var(--green);color:white}
+.login{
+  max-width:440px;
+  margin:70px auto;
+  background:white;
+  padding:28px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 4px 18px #0001;
+}
+.login h1{color:var(--blue)}
+#app{display:none}
+.layout{
+  display:flex;
+  min-height:calc(100vh - 65px);
+}
+nav{
+  width:230px;
+  background:#fff;
+  padding:15px;
+  border-right:1px solid #ddd;
+}
+nav button{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:white;
+  color:var(--text);
+  margin:5px 0;
+}
+nav button:hover,nav button.active{
+  background:#e7f0fa;
+  color:var(--blue);
+}
+main{flex:1;padding:22px;min-width:0}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 9px #0000000c;
+}
+.card h3{margin-top:0;color:var(--blue)}
+.card button{margin-top:10px}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  margin:7px 0 14px;
+  border:1px solid #ccd5df;
+  border-radius:7px;
+  font:inherit;
+}
+textarea{min-height:110px}
+.formbox{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  max-width:700px;
+}
+.item{
+  background:white;
+  padding:15px;
+  margin:10px 0;
+  border-radius:9px;
+  border-left:4px solid var(--blue2);
+}
+.muted{color:#6d7887;font-size:14px}
+.hidden{display:none!important}
+#message{
+  padding:12px;
+  border-radius:8px;
+  margin:12px 0;
+  background:#fff3cd;
+  color:#765500;
+}
+@media(max-width:700px){
+  .layout{display:block}
+  nav{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    border-right:0;
+    border-bottom:1px solid #ddd;
+  }
+  nav button{font-size:13px}
+  main{padding:14px}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>CONNAISSANCES+</h1>
-  <p>Le savoir ouvre toutes les portes.</p>
-  <p>Votre plateforme éducative haïtienne</p>
+  <h2>📚 CONNAISSANCES+</h2>
+  <div id="headerUser"></div>
 </header>
 
-<main>
+<section id="loginPanel" class="login">
+  <h1>CONNAISSANCES+</h1>
+  <h3>Le savoir ouvre toutes les portes.</h3>
+  <p>Votre plateforme éducative haïtienne.</p>
+  <p>Connectez-vous pour accéder à votre espace d’apprentissage.</p>
+  <button class="primary" onclick="loginGoogle()">
+    Continuer avec Google
+  </button>
+  <div id="loginMessage"></div>
+</section>
 
-  <!-- ÉCRAN DE CONNEXION -->
+<section id="app">
+  <div class="layout">
+    <nav id="menu">
+      <button class="active" onclick="showPage('accueil',this)">🏠 Accueil</button>
+      <button onclick="showPage('niveaux',this)">🎓 Niveaux scolaires</button>
+      <button onclick="showPage('matieres',this)">📘 Matières</button>
+      <button onclick="showPage('cours',this)">📚 Cours</button>
+      <button onclick="showPage('lecons',this)">📝 Leçons</button>
+      <button onclick="showPage('exercices',this)">✍️ Exercices</button>
+      <button onclick="showPage('examens',this)">📋 Examens et quiz</button>
+      <button onclick="showPage('resultats',this)">📊 Résultats</button>
+      <button id="adminMenu" class="hidden" onclick="showPage('administration',this)">⚙️ Administration</button>
+      <button onclick="logout()">🚪 Déconnexion</button>
+    </nav>
 
-  <section class="panel hidden" id="authPanel">
-
-    <h2>Bienvenue</h2>
-
-    <p>
-      Connectez-vous avec votre compte Google
-      pour accéder à votre espace académique.
-    </p>
-
-    <button class="google-btn" id="googleBtn">
-      🌐 Continuer avec Google
-    </button>
-
-    <p id="message"></p>
-
-  </section>
-
-
-  <!-- ESPACE MEMBRE -->
-
-  <section class="panel hidden" id="memberPanel">
-
-    <h2>Mon espace académique</h2>
-
-    <p id="welcome"></p>
-
-    <p>
-      Bienvenue sur CONNAISSANCES+.
-    </p>
-
-    <p>
-      Votre plateforme de connaissances et d'apprentissage.
-    </p>
-
-    <button class="logout-btn" id="logoutBtn">
-      Se déconnecter
-    </button>
-
-  </section>
-
-
-  <!-- ESPACE ADMINISTRATEUR -->
-
-  <section class="panel hidden" id="adminPanel">
-
-    <h2>Espace administrateur</h2>
-
-    <p>Bienvenue dans votre espace d'administration.</p>
-
-    <p id="adminWelcome"></p>
-
-    <button class="logout-btn" id="adminLogoutBtn">
-      Se déconnecter
-    </button>
-
-  </section>
-
-</main>
-
-<footer>
-  CONNAISSANCES+ · Plateforme éducative
-</footer>
-
+    <main>
+      <div id="message" class="hidden"></div>
+      <div id="pageContent"></div>
+    </main>
+  </div>
+</section>
 
 <script type="module">
-
 import { initializeApp } from
 "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
-  onAuthStateChanged,
-  signOut
-} from
-"https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+  getAuth, GoogleAuthProvider, signInWithRedirect,
+  getRedirectResult, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp
-} from
-"https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-
-
-/* CONFIGURATION FIREBASE */
+  getFirestore, doc, getDoc, setDoc, addDoc,
+  collection, getDocs, updateDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaF4sq1z27ZscLfMHo5GufkPxnu0-rbnA",
@@ -214,257 +202,365 @@ const firebaseConfig = {
   appId: "1:374720398601:web:ed9ffff17f25bff5b73fd8"
 };
 
-
-/* INITIALISATION */
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
 const ADMIN_EMAIL = "simeonsadrack39@gmail.com";
 
-const googleProvider = new GoogleAuthProvider();
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const provider = new GoogleAuthProvider();
 
-googleProvider.setCustomParameters({
-  prompt: "select_account"
-});
+let currentUser = null;
+let isAdmin = false;
+let currentProfile = null;
 
-const $ = id => document.getElementById(id);
+const niveauxDefaut = [
+"1ère année fondamentale",
+"2ème année fondamentale",
+"3ème année fondamentale",
+"4ème année fondamentale",
+"5ème année fondamentale",
+"6ème année fondamentale",
+"7ème année fondamentale",
+"8ème année fondamentale",
+"9ème année fondamentale",
+"Secondaire 1",
+"Secondaire 2",
+"Secondaire 3",
+"Secondaire 4 / NS4",
+"Philo"
+];
 
-let checkingAccount = false;
-
-
-/* AFFICHAGE DES ÉCRANS */
-
-function hideAllPanels() {
-  $("authPanel").classList.add("hidden");
-  $("memberPanel").classList.add("hidden");
-  $("adminPanel").classList.add("hidden");
-}
-
-function showMessage(text) {
-  $("message").textContent = text;
-}
-
-
-/* CONNEXION GOOGLE */
-
-$("googleBtn").addEventListener("click", async () => {
-
-  $("googleBtn").disabled = true;
-
-  showMessage("Connexion à Google en cours...");
-
-  try {
-
-    await signInWithRedirect(auth, googleProvider);
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      "Erreur Google : " +
-      error.code +
-      " - " +
-      error.message
-    );
-
-    $("googleBtn").disabled = false;
-
+window.loginGoogle = async function(){
+  document.getElementById("loginMessage").textContent =
+    "Connexion en cours...";
+  try{
+    await signInWithRedirect(auth,provider);
+  }catch(e){
+    document.getElementById("loginMessage").textContent =
+      "Erreur de connexion : " + e.message;
   }
+};
 
-});
+window.logout = async function(){
+  await signOut(auth);
+};
 
-
-/* RÉSULTAT DE REDIRECTION GOOGLE */
-
-try {
-
-  await getRedirectResult(auth);
-
-} catch (error) {
-
-  console.error(error);
-
-  $("authPanel").classList.remove("hidden");
-
-  showMessage(
-    "Connexion Google impossible : " +
-    error.code +
-    " - " +
-    error.message
-  );
-
+function showMessage(msg){
+  const el=document.getElementById("message");
+  el.textContent=msg;
+  el.classList.remove("hidden");
 }
 
+function hideMessage(){
+  document.getElementById("message").classList.add("hidden");
+}
 
-/* VÉRIFICATION ET CRÉATION DU PROFIL */
-
-onAuthStateChanged(auth, async user => {
-
-  if (checkingAccount) return;
-
-  checkingAccount = true;
-
-  hideAllPanels();
-
-  if (!user) {
-
-    $("authPanel").classList.remove("hidden");
-
-    $("googleBtn").disabled = false;
-
-    checkingAccount = false;
-
+onAuthStateChanged(auth, async user=>{
+  if(!user){
+    currentUser=null;
+    document.getElementById("loginPanel").style.display="block";
+    document.getElementById("app").style.display="none";
+    document.getElementById("headerUser").textContent="";
     return;
   }
 
-  try {
+  currentUser=user;
+  const email=(user.email||"").toLowerCase();
+  isAdmin=email===ADMIN_EMAIL && user.emailVerified===true;
 
-    await user.reload();
-    await user.getIdToken(true);
+  try{
+    if(!isAdmin){
+      const profileRef=doc(db,"users",user.uid);
+      const profileSnap=await getDoc(profileRef);
 
-    const currentUser = auth.currentUser;
+      if(!profileSnap.exists()){
+        await setDoc(profileRef,{
+          nom:user.displayName||"Membre",
+          email:user.email,
+          role:"membre",
+          statut:"attente",
+          createdAt:serverTimestamp()
+        });
+        await signOut(auth);
+        document.getElementById("loginMessage").textContent=
+          "Votre compte est créé. Il attend l'approbation de l'administrateur.";
+        return;
+      }
 
-    if (!currentUser) {
-      throw new Error("Utilisateur Firebase introuvable.");
+      currentProfile=profileSnap.data();
+
+      if(currentProfile.statut!=="actif"){
+        await signOut(auth);
+        document.getElementById("loginMessage").textContent=
+          "Votre compte est en attente de validation.";
+        return;
+      }
     }
 
+    document.getElementById("loginPanel").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("headerUser").textContent=
+      user.displayName||user.email;
 
-    /* ADMINISTRATEUR */
+    document.getElementById("adminMenu").classList.toggle("hidden",!isAdmin);
 
-    const isAdmin =
-      currentUser.email &&
-      currentUser.email.toLowerCase() === ADMIN_EMAIL &&
-      currentUser.emailVerified === true;
+    await showPage("accueil");
+  }catch(e){
+    console.error(e);
+    showMessage("Erreur de chargement : "+e.message);
+  }
+});
 
-    if (isAdmin) {
+window.showPage = async function(page,button){
+  hideMessage();
 
-      $("adminWelcome").textContent =
-        currentUser.displayName || currentUser.email;
+  document.querySelectorAll("#menu button").forEach(b=>b.classList.remove("active"));
+  if(button)button.classList.add("active");
 
-      $("adminPanel").classList.remove("hidden");
+  const area=document.getElementById("pageContent");
+  area.innerHTML="<h3>Chargement...</h3>";
 
-      checkingAccount = false;
-
-      return;
-    }
-
-
-    /* RECHERCHE DU PROFIL */
-
-    const profileRef = doc(
-      db,
-      "users",
-      currentUser.uid
-    );
-
-    const profileSnap = await getDoc(profileRef);
-
-
-    /* CRÉATION AUTOMATIQUE DU NOUVEAU PROFIL */
-
-    if (!profileSnap.exists()) {
-
-      await setDoc(profileRef, {
-
-        nom: currentUser.displayName || "Membre",
-
-        email: currentUser.email,
-
-        role: "membre",
-
-        statut: "attente",
-
-        createdAt: serverTimestamp()
-
-      });
-
-      hideAllPanels();
-
-      $("authPanel").classList.remove("hidden");
-
-      showMessage(
-        "Votre compte a été créé. Il est en attente de validation par l'administration."
-      );
-
-      await signOut(auth);
-
-      checkingAccount = false;
-
-      return;
-    }
-
-
-    /* VÉRIFICATION DU STATUT */
-
-    const data = profileSnap.data();
-
-    if (data.statut !== "actif") {
-
-      hideAllPanels();
-
-      $("authPanel").classList.remove("hidden");
-
-      showMessage(
-        "Votre compte est en attente de validation."
-      );
-
-      await signOut(auth);
-
-      checkingAccount = false;
-
-      return;
-    }
-
-
-    /* ESPACE MEMBRE */
-
-    $("welcome").textContent =
-      "Bienvenue, " +
-      (data.nom || currentUser.displayName || currentUser.email);
-
-    $("memberPanel").classList.remove("hidden");
-
-  } catch (error) {
-
-    console.error(error);
-
-    hideAllPanels();
-
-    $("authPanel").classList.remove("hidden");
-
-    showMessage(
-      "Erreur de vérification : " +
-      error.message
-    );
-
+  if(page==="accueil"){
+    area.innerHTML=`
+      <h1>Bienvenue dans CONNAISSANCES+</h1>
+      <p>Le savoir ouvre toutes les portes.</p>
+      <p>Votre espace d’apprentissage numérique.</p>
+      <div class="cards">
+        <div class="card"><h3>🎓 Niveaux scolaires</h3><p>De la 1ère année fondamentale à la Philo.</p><button class="primary" onclick="showPage('niveaux')">Explorer</button></div>
+        <div class="card"><h3>📘 Matières</h3><p>Découvrez les matières scolaires.</p><button class="primary" onclick="showPage('matieres')">Explorer</button></div>
+        <div class="card"><h3>📚 Cours et leçons</h3><p>Consultez les contenus pédagogiques.</p><button class="primary" onclick="showPage('cours')">Explorer</button></div>
+        <div class="card"><h3>✍️ Exercices</h3><p>Entraînez-vous et révisez.</p><button class="primary" onclick="showPage('exercices')">Explorer</button></div>
+        <div class="card"><h3>📋 Examens et quiz</h3><p>Évaluez vos connaissances.</p><button class="primary" onclick="showPage('examens')">Explorer</button></div>
+        <div class="card"><h3>📊 Résultats</h3><p>Retrouvez vos résultats.</p><button class="primary" onclick="showPage('resultats')">Explorer</button></div>
+      </div>`;
+    return;
   }
 
-  checkingAccount = false;
+  if(page==="administration"){
+    if(!isAdmin){area.innerHTML="<p>Accès refusé.</p>";return;}
+    await renderAdmin(area);
+    return;
+  }
 
+  if(page==="resultats"){
+    await renderResults(area);
+    return;
+  }
+
+  await renderCollection(page,area);
+};
+
+async function renderCollection(name,area){
+  const titles={
+    niveaux:"Niveaux scolaires",
+    matieres:"Matières",
+    cours:"Cours",
+    lecons:"Leçons",
+    exercices:"Exercices",
+    examens:"Examens et quiz"
+  };
+
+  const allowed=["niveaux","matieres","cours","lecons","exercices","examens"];
+  if(!allowed.includes(name))return;
+
+  let html=`<h1>${titles[name]}</h1>`;
+  if(isAdmin){
+    html+=`<button class="primary" onclick="showAddForm('${name}')">＋ Ajouter</button>`;
+  }
+  html+=`<div id="addArea"></div><div id="listArea">Chargement...</div>`;
+  area.innerHTML=html;
+
+  try{
+    const snap=await getDocs(collection(db,name));
+    const list=document.getElementById("listArea");
+
+    if(snap.empty){
+      list.innerHTML="<p class='muted'>Aucun contenu publié pour le moment.</p>";
+      return;
+    }
+
+    list.innerHTML="";
+    snap.forEach(d=>{
+      const x=d.data();
+      const div=document.createElement("div");
+      div.className="item";
+
+      const title=document.createElement("h3");
+      title.textContent=x.titre||x.nom||"Sans titre";
+      div.appendChild(title);
+
+      if(x.niveau)div.appendChild(makeParagraph("Niveau : "+x.niveau));
+      if(x.matiere)div.appendChild(makeParagraph("Matière : "+x.matiere));
+      if(x.description)div.appendChild(makeParagraph(x.description));
+      if(x.contenu)div.appendChild(makeParagraph(x.contenu));
+
+      list.appendChild(div);
+    });
+  }catch(e){
+    document.getElementById("listArea").textContent=
+      "Impossible de charger les données : "+e.message;
+  }
+}
+
+function makeParagraph(text){
+  const p=document.createElement("p");
+  p.textContent=text;
+  return p;
+}
+
+window.showAddForm=function(name){
+  if(!isAdmin)return;
+
+  const area=document.getElementById("addArea");
+  area.innerHTML=`
+    <div class="formbox">
+      <h3>Ajouter un élément</h3>
+      <label>Titre ou nom</label>
+      <input id="newTitle" placeholder="Titre">
+      <label>Niveau scolaire</label>
+      <select id="newLevel">
+        <option value="">Choisir un niveau</option>
+        ${niveauxDefaut.map(n=>`<option>${n}</option>`).join("")}
+      </select>
+      <label>Matière</label>
+      <input id="newSubject" placeholder="Ex. Mathématiques">
+      <label>Description</label>
+      <textarea id="newDescription" placeholder="Description ou contenu"></textarea>
+      <button class="success" onclick="saveItem('${name}')">Enregistrer</button>
+      <button onclick="document.getElementById('addArea').innerHTML=''">Annuler</button>
+    </div>`;
+};
+
+window.saveItem=async function(name){
+  if(!isAdmin)return;
+
+  const titre=document.getElementById("newTitle").value.trim();
+  const niveau=document.getElementById("newLevel").value;
+  const matiere=document.getElementById("newSubject").value.trim();
+  const description=document.getElementById("newDescription").value.trim();
+
+  if(!titre){
+    alert("Veuillez saisir un titre.");
+    return;
+  }
+
+  try{
+    await addDoc(collection(db,name),{
+      titre,
+      nom:titre,
+      niveau,
+      matiere,
+      description,
+      contenu:description,
+      publie:true,
+      createdAt:serverTimestamp(),
+      createdBy:currentUser.uid
+    });
+
+    alert("Élément enregistré avec succès.");
+    await showPage(name);
+  }catch(e){
+    alert("Erreur : "+e.message);
+  }
+};
+
+async function renderAdmin(area){
+  area.innerHTML=`
+    <h1>Administration</h1>
+    <p>Gestion de la plateforme CONNAISSANCES+.</p>
+    <div class="cards">
+      <div class="card"><h3>👥 Utilisateurs</h3><p>Valider les nouveaux comptes.</p><button class="primary" onclick="loadUsers()">Gérer les utilisateurs</button></div>
+      <div class="card"><h3>🎓 Niveaux</h3><p>Gérer les niveaux scolaires.</p><button class="primary" onclick="showPage('niveaux')">Gérer</button></div>
+      <div class="card"><h3>📚 Contenus</h3><p>Ajouter cours, leçons et exercices.</p><button class="primary" onclick="showPage('cours')">Gérer</button></div>
+    </div>
+    <div id="usersArea"></div>`;
+}
+
+window.loadUsers=async function(){
+  if(!isAdmin)return;
+  const area=document.getElementById("usersArea");
+  area.innerHTML="<h3>Chargement des utilisateurs...</h3>";
+
+  try{
+    const snap=await getDocs(collection(db,"users"));
+    area.innerHTML="<h2>Utilisateurs</h2>";
+
+    if(snap.empty){
+      area.innerHTML+="<p>Aucun utilisateur.</p>";
+      return;
+    }
+
+    snap.forEach(d=>{
+      const u=d.data();
+      const div=document.createElement("div");
+      div.className="item";
+
+      const name=document.createElement("h3");
+      name.textContent=u.nom||"Utilisateur";
+      div.appendChild(name);
+      div.appendChild(makeParagraph(u.email||""));
+      div.appendChild(makeParagraph("Statut : "+(u.statut||"non défini")));
+
+      if(u.statut!=="actif"){
+        const btn=document.createElement("button");
+        btn.className="success";
+        btn.textContent="Activer le compte";
+        btn.onclick=()=>approveUser(d.id);
+        div.appendChild(btn);
+      }
+
+      area.appendChild(div);
+    });
+  }catch(e){
+    area.textContent="Erreur : "+e.message;
+  }
+};
+
+window.approveUser=async function(uid){
+  if(!isAdmin)return;
+  try{
+    await updateDoc(doc(db,"users",uid),{
+      statut:"actif"
+    });
+    alert("Compte activé.");
+    await loadUsers();
+  }catch(e){
+    alert("Erreur : "+e.message);
+  }
+};
+
+async function renderResults(area){
+  area.innerHTML="<h1>Résultats</h1><p>Chargement...</p>";
+
+  try{
+    const snap=await getDocs(collection(db,"resultats"));
+    area.innerHTML="<h1>Résultats</h1>";
+
+    let count=0;
+    snap.forEach(d=>{
+      const r=d.data();
+      if(isAdmin || r.uid===currentUser.uid){
+        count++;
+        const div=document.createElement("div");
+        div.className="item";
+        div.textContent=
+          (r.titre||"Résultat")+" — "+(r.note??"");
+        area.appendChild(div);
+      }
+    });
+
+    if(count===0){
+      area.innerHTML+="<p class='muted'>Aucun résultat disponible.</p>";
+    }
+  }catch(e){
+    area.innerHTML="<h1>Résultats</h1><p>Erreur : "+e.message+"</p>";
+  }
+}
+
+getRedirectResult(auth).catch(e=>{
+  document.getElementById("loginMessage").textContent=
+    "Erreur de connexion : "+e.message;
 });
-
-
-/* DÉCONNEXION MEMBRE */
-
-$("logoutBtn").addEventListener("click", async () => {
-
-  await signOut(auth);
-
-});
-
-
-/* DÉCONNEXION ADMINISTRATEUR */
-
-$("adminLogoutBtn").addEventListener("click", async () => {
-
-  await signOut(auth);
-
-});
-
 </script>
-
 </body>
 </html>
