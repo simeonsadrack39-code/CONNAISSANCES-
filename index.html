@@ -65,6 +65,7 @@ import { initializeApp } from
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
@@ -108,7 +109,7 @@ $("registerBtn").addEventListener("click", async () => {
     const credential = await createUserWithEmailAndPassword(
       auth, email, password
     );
-
+await sendEmailVerification(credential.user);
     await setDoc(doc(db, "users", credential.user.uid), {
       nom: nom,
       email: email,
