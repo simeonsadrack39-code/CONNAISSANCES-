@@ -195,7 +195,7 @@ th{background:var(--blue);color:white;}
 </section>
 
 <!-- APPLICATION PRINCIPALE -->
-<section id="app">
+<section id="app" class="hidden">
   <div class="layout">
     <nav id="menu">
       <button class="active" onclick="showPage('accueil',this)">🏠 Accueil</button>
@@ -261,14 +261,15 @@ const matieresDefaut = [
 ];
 
 window.loginGoogle = async function(){
-  document.getElementById("loginMessagetextContent") = "";
+  const msgEl = document.getElementById("loginMessage");
+  if(msgEl) msgEl.textContent = "";
   try {
     await signInWithPopup(auth, provider);
   } catch(e) {
     try {
       await signInWithRedirect(auth, provider);
     } catch(err) {
-      document.getElementById("loginMessage").textContent = "Erreur de connexion : " + err.message;
+      if(msgEl) msgEl.textContent = "Erreur de connexion : " + err.message;
     }
   }
 };
@@ -279,6 +280,7 @@ window.logout = async function(){
 
 function showMessage(msg, isError=false){
   const el = document.getElementById("message");
+  if(!el) return;
   el.textContent = msg;
   el.style.background = isError ? "#fadbd8" : "#e7f0fa";
   el.style.color = isError ? "#900c3f" : "var(--blue)";
@@ -286,15 +288,20 @@ function showMessage(msg, isError=false){
 }
 
 function hideMessage(){
-  document.getElementById("message").classList.add("hidden");
+  const el = document.getElementById("message");
+  if(el) el.classList.add("hidden");
 }
 
 onAuthStateChanged(auth, async user => {
+  const loginPanel = document.getElementById("loginPanel");
+  const appPanel = document.getElementById("app");
+  const headerUser = document.getElementById("headerUser");
+
   if(!user){
     currentUser = null;
-    document.getElementById("loginPanel").style.display = "block";
-    document.getElementById("app").style.display = "none";
-    document.getElementById("headerUser").textContent = "";
+    if(loginPanel) loginPanel.classList.remove("hidden");
+    if(appPanel) appPanel.classList.add("hidden");
+    if(headerUser) headerUser.textContent = "";
     return;
   }
 
@@ -320,7 +327,7 @@ onAuthStateChanged(auth, async user => {
     }
 
     currentProfile = profileSnap.data();
-    if(isAdmin && currentProfile.statut !== "actif"){
+    if(isAdmin && (currentProfile.statut !== "actif" || currentProfile.role !== "administrateur")){
       await updateDoc(profileRef, { statut: "actif", role: "administrateur" });
       currentProfile.statut = "actif";
       currentProfile.role = "administrateur";
@@ -328,20 +335,23 @@ onAuthStateChanged(auth, async user => {
 
     if(!isAdmin && currentProfile.statut !== "actif"){
       await signOut(auth);
-      document.getElementById("loginPanel").style.display = "block";
-      document.getElementById("app").style.display = "none";
-      document.getElementById("loginMessage").textContent = "Votre compte est en attente d'approbation par l'administrateur.";
+      if(loginPanel) loginPanel.classList.remove("hidden");
+      if(appPanel) appPanel.classList.add("hidden");
+      const loginMsg = document.getElementById("loginMessage");
+      if(loginMsg) loginMsg.textContent = "Votre compte est en attente d'approbation par l'administrateur.";
       return;
     }
 
     isTeacher = (currentProfile.role === "professeur" || isAdmin);
 
-    document.getElementById("loginPanel").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    document.getElementById("headerUser").textContent = `${user.displayName || user.email} (${currentProfile.role})`;
+    if(loginPanel) loginPanel.classList.add("hidden");
+    if(appPanel) appPanel.classList.remove("hidden");
+    if(headerUser) headerUser.textContent = `${user.displayName || user.email} (${currentProfile.role})`;
 
-    document.getElementById("adminMenu").classList.toggle("hidden", !isAdmin);
-    document.getElementById("teacherMenu").classList.toggle("hidden", !isTeacher && !isAdmin);
+    const adminMenu = document.getElementById("adminMenu");
+    const teacherMenu = document.getElementById("teacherMenu");
+    if(adminMenu) adminMenu.classList.toggle("hidden", !isAdmin);
+    if(teacherMenu) teacherMenu.classList.toggle("hidden", !isTeacher && !isAdmin);
 
     await showPage("accueil");
   } catch(e) {
@@ -358,6 +368,7 @@ window.showPage = async function(page, button){
   }
 
   const area = document.getElementById("pageContent");
+  if(!area) return;
   area.innerHTML = "<h3>Chargement en cours...</h3>";
 
   if(page === "accueil"){
@@ -422,6 +433,8 @@ async function renderCollection(name, area){
   try {
     const snap = await getDocs(collection(db, name));
     const list = document.getElementById("listArea");
+    if(!list) return;
+
     if(snap.empty){
       list.innerHTML = "<p class='muted'>Aucun contenu disponible pour le moment.</p>";
       return;
@@ -469,7 +482,8 @@ async function renderCollection(name, area){
       list.appendChild(div);
     });
   } catch(e) {
-    document.getElementById("listArea").textContent = "Erreur de chargement : " + e.message;
+    const list = document.getElementById("listArea");
+    if(list) list.textContent = "Erreur de chargement : " + e.message;
   }
 }
 
@@ -481,6 +495,7 @@ function makeP(txt){
 
 window.showAddForm = function(name){
   const area = document.getElementById("addArea");
+  if(!area) return;
   area.innerHTML = `
     <div class="formbox">
       <h3>Ajouter un contenu (${name})</h3>
@@ -504,10 +519,15 @@ window.showAddForm = function(name){
 };
 
 window.saveCollectionItem = async function(name){
-  const titre = document.getElementById("itemTitle").value.trim();
-  const niveau = document.getElementById("itemLevel").value;
-  const matiere = document.getElementById("itemSubject").value;
-  const description = document.getElementById("itemDesc").value.trim();
+  const titreInput = document.getElementById("itemTitle");
+  const niveauInput = document.getElementById("itemLevel");
+  const matiereInput = document.getElementById("itemSubject");
+  const descInput = document.getElementById("itemDesc");
+
+  const titre = titreInput ? titreInput.value.trim() : "";
+  const niveau = niveauInput ? niveauInput.value : "";
+  const matiere = matiereInput ? matiereInput.value : "";
+  const description = descInput ? descInput.value.trim() : "";
 
   if(!titre){ alert("Le titre est obligatoire."); return; }
 
@@ -521,7 +541,7 @@ window.saveCollectionItem = async function(name){
       contenu: description,
       publie: true,
       createdAt: serverTimestamp(),
-      createdBy: currentUser.uid
+      createdBy: currentUser ? currentUser.uid : ""
     });
     alert("Enregistré avec succès !");
     showPage(name);
@@ -532,6 +552,7 @@ window.saveCollectionItem = async function(name){
 
 window.startEvaluation = async function(id, data, type){
   const area = document.getElementById("pageContent");
+  if(!area) return;
   area.innerHTML = `
     <div class="formbox">
       <h2>${data.titre || data.nom}</h2>
@@ -546,7 +567,8 @@ window.startEvaluation = async function(id, data, type){
 };
 
 window.submitEvaluation = async function(id, type){
-  const reponse = document.getElementById("userAnswer").value.trim();
+  const ansInput = document.getElementById("userAnswer");
+  const reponse = ansInput ? ansInput.value.trim() : "";
   if(!reponse){ alert("Veuillez saisir une réponse."); return; }
 
   try {
@@ -575,6 +597,7 @@ async function renderResults(area){
     const q = isAdmin ? collection(db, "resultats") : query(collection(db, "resultats"), where("uid", "==", currentUser.uid));
     const snap = await getDocs(q);
     const list = document.getElementById("resultsList");
+    if(!list) return;
 
     if(snap.empty){
       list.innerHTML = "<p class='muted'>Aucun résultat enregistré pour le moment.</p>";
@@ -595,7 +618,8 @@ async function renderResults(area){
     html += `</table></div>`;
     list.innerHTML = html;
   } catch(e) {
-    document.getElementById("resultsList").textContent = "Erreur : " + e.message;
+    const list = document.getElementById("resultsList");
+    if(list) list.textContent = "Erreur : " + e.message;
   }
 }
 
@@ -627,6 +651,7 @@ async function renderAdmin(area){
 
 window.loadAdminUsers = async function(){
   const container = document.getElementById("adminContent");
+  if(!container) return;
   container.innerHTML = "<h3>Gestion des Utilisateurs</h3><p>Chargement...</p>";
   try {
     const snap = await getDocs(collection(db, "users"));
