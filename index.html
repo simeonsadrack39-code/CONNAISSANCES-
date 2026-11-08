@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b70">
+  <title>CONNAISSANCES+ | Le savoir ouvre toutes les portes</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b4d}
+    header{background:#123b70;color:white;padding:25px 16px;text-align:center}
+    header h1{margin:0;font-size:30px}
+    header p{margin:8px 0 0}
+    main{max-width:520px;margin:25px auto;padding:16px}
+    .panel{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 15px #00000012}
+    h2{margin-top:0}
+    input,button{width:100%;padding:13px;margin:8px 0;border-radius:8px;font-size:16px}
+    input{border:1px solid #ccd5e2}
+    button{border:0;background:#123b70;color:white;font-weight:bold;cursor:pointer}
+    button.secondary{background:#e7edf6;color:#123b70}
+    .hidden{display:none}
+    #message{padding:10px;border-radius:8px;white-space:pre-wrap}
+    footer{text-align:center;padding:20px;color:#65748b;font-size:13px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>CONNAISSANCES+</h1>
+  <p>Le savoir ouvre toutes les portes.</p>
+  <p>Votre plateforme éducative haïtienne</p>
+</header>
+
+<main>
+  <section class="panel" id="authPanel">
+    <h2>Bienvenue</h2>
+    <p>Connectez-vous ou créez votre compte.</p>
+
+    <input id="nom" placeholder="Nom complet">
+    <input id="email" type="email" placeholder="Adresse e-mail">
+    <input id="password" type="password" placeholder="Mot de passe">
+
+    <button id="registerBtn">Créer un compte</button>
+    <button class="secondary" id="loginBtn">Se connecter</button>
+    <p id="message"></p>
+  </section>
+
+  <section class="panel hidden" id="memberPanel">
+    <h2>Mon espace académique</h2>
+    <p id="welcome"></p>
+    <p>Bienvenue sur CONNAISSANCES+.</p>
+    <p>Votre plateforme de connaissances et d'apprentissage.</p>
+    <button id="logoutBtn">Se déconnecter</button>
+  </section>
+</main>
+
+<footer>
+  CONNAISSANCES+ · Plateforme éducative
+</footer>
+
+<script type="module">
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAaF4sq1z27ZscLfMHo5GufkPxnu0-rbnA",
+  authDomain: "konesans-plus.firebaseapp.com",
+  projectId: "konesans-plus",
+  storageBucket: "konesans-plus.firebasestorage.app",
+  messagingSenderId: "374720398601",
+  appId: "1:374720398601:web:ed9ffff17f25bff5b73fd8"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const message = text => $("message").textContent = text;
+
+$("registerBtn").addEventListener("click", async () => {
+  const nom = $("nom").value.trim();
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value;
+
+  if (!nom || !email || !password) {
+    message("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  try {
+    const credential = await createUserWithEmailAndPassword(
+      auth, email, password
+    );
+
+    await setDoc(doc(db, "users", credential.user.uid), {
+      nom: nom,
+      email: email,
+      role: "membre",
+      statut: "attente",
+      createdAt: serverTimestamp()
+    });
+
+    message("Compte créé. En attente de validation par l'administration.");
+  } catch (error) {
+    message("Erreur : " + error.message);
+  }
+});
+
+$("loginBtn").addEventListener("click", async () => {
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value;
+
+  if (!email || !password) {
+    message("Veuillez saisir votre e-mail et votre mot de passe.");
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    message("Connexion impossible : " + error.message);
+  }
+});
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    $("authPanel").classList.remove("hidden");
+    $("memberPanel").classList.add("hidden");
+    return;
+  }
+
+  try {
+    const profile = await getDoc(doc(db, "users", user.uid));
+
+    if (!profile.exists()) {
+      message("Profil utilisateur introuvable.");
+      await signOut(auth);
+      return;
+    }
+
+    const data = profile.data();
+
+    if (data.statut !== "actif") {
+      message("Votre compte est en attente de validation.");
+      await signOut(auth);
+      return;
+    }
+
+    $("authPanel").classList.add("hidden");
+    $("memberPanel").classList.remove("hidden");
+    $("welcome").textContent = "Bienvenue, " + (data.nom || user.email);
+  } catch (error) {
+    message("Erreur de lecture du profil : " + error.message);
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+});
+</script>
+</body>
+</html>
