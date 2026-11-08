@@ -5,26 +5,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#123b70">
+
   <title>CONNAISSANCES+ | Le savoir ouvre toutes les portes</title>
+
   <style>
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b4d}
-    header{background:#123b70;color:white;padding:25px 16px;text-align:center}
-    header h1{margin:0;font-size:30px}
-    header p{margin:8px 0 0}
-    main{max-width:520px;margin:25px auto;padding:16px}
-    .panel{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 15px #00000012}
-    h2{margin-top:0}
-    input,button{width:100%;padding:13px;margin:8px 0;border-radius:8px;font-size:16px}
-    input{border:1px solid #ccd5e2}
-    button{border:0;background:#123b70;color:white;font-weight:bold;cursor:pointer}
-    button.secondary{background:#e7edf6;color:#123b70}
-    .hidden{display:none}
-    #message{padding:10px;border-radius:8px;white-space:pre-wrap}
-    footer{text-align:center;padding:20px;color:#65748b;font-size:13px}
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f5fa;
+      color: #172b4d;
+    }
+
+    header {
+      background: #123b70;
+      color: white;
+      padding: 25px 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+    }
+
+    main {
+      max-width: 520px;
+      margin: 25px auto;
+      padding: 16px;
+    }
+
+    .panel {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px #00000012;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input {
+      border: 1px solid #ccd5e2;
+    }
+
+    button {
+      border: 0;
+      background: #123b70;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #e7edf6;
+      color: #123b70;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #message {
+      padding: 10px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #65748b;
+      font-size: 13px;
+    }
   </style>
 </head>
+
 <body>
+
 <header>
   <h1>CONNAISSANCES+</h1>
   <p>Le savoir ouvre toutes les portes.</p>
@@ -32,33 +106,94 @@
 </header>
 
 <main>
+
+  <!-- CONNEXION ET INSCRIPTION -->
+
   <section class="panel" id="authPanel">
+
     <h2>Bienvenue</h2>
+
     <p>Connectez-vous ou créez votre compte.</p>
 
-    <input id="nom" placeholder="Nom complet">
-    <input id="email" type="email" placeholder="Adresse e-mail">
-    <input id="password" type="password" placeholder="Mot de passe">
+    <input
+      id="nom"
+      type="text"
+      placeholder="Nom complet"
+    >
 
-    <button id="registerBtn">Créer un compte</button>
-    <button class="secondary" id="loginBtn">Se connecter</button>
+    <input
+      id="email"
+      type="email"
+      placeholder="Adresse e-mail"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Mot de passe"
+    >
+
+    <button id="registerBtn">
+      Créer un compte
+    </button>
+
+    <button class="secondary" id="loginBtn">
+      Se connecter
+    </button>
+
     <p id="message"></p>
+
   </section>
+
+
+  <!-- ESPACE MEMBRE -->
 
   <section class="panel hidden" id="memberPanel">
+
     <h2>Mon espace académique</h2>
+
     <p id="welcome"></p>
+
     <p>Bienvenue sur CONNAISSANCES+.</p>
-    <p>Votre plateforme de connaissances et d'apprentissage.</p>
-    <button id="logoutBtn">Se déconnecter</button>
+
+    <p>
+      Votre plateforme de connaissances et d'apprentissage.
+    </p>
+
+    <button id="logoutBtn">
+      Se déconnecter
+    </button>
+
   </section>
+
+
+  <!-- ESPACE ADMINISTRATEUR -->
+
+  <section class="panel hidden" id="adminPanel">
+
+    <h2>Espace administrateur</h2>
+
+    <p>Bienvenue dans votre espace d'administration.</p>
+
+    <p>
+      CONNAISSANCES+ · Gestion de la plateforme éducative.
+    </p>
+
+    <button id="adminLogoutBtn">
+      Se déconnecter
+    </button>
+
+  </section>
+
 </main>
 
 <footer>
   CONNAISSANCES+ · Plateforme éducative
 </footer>
 
+
 <script type="module">
+
 import { initializeApp } from
 "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 
@@ -69,7 +204,8 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+} from
+"https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
   getFirestore,
@@ -77,7 +213,11 @@ import {
   setDoc,
   getDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+} from
+"https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+/* CONFIGURATION FIREBASE */
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaF4sq1z27ZscLfMHo5GufkPxnu0-rbnA",
@@ -88,14 +228,24 @@ const firebaseConfig = {
   appId: "1:374720398601:web:ed9ffff17f25bff5b73fd8"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const ADMIN_EMAIL = "simeonsadrack39@gmail.com";
+
 const $ = id => document.getElementById(id);
-const message = text => $("message").textContent = text;
+
+const message = text => {
+  $("message").textContent = text;
+};
+
+
+/* CRÉATION DE COMPTE */
 
 $("registerBtn").addEventListener("click", async () => {
+
   const nom = $("nom").value.trim();
   const email = $("email").value.trim().toLowerCase();
   const password = $("password").value;
@@ -106,25 +256,43 @@ $("registerBtn").addEventListener("click", async () => {
   }
 
   try {
-    const credential = await createUserWithEmailAndPassword(
-      auth, email, password
-    );
-await sendEmailVerification(credential.user);
-    await setDoc(doc(db, "users", credential.user.uid), {
-      nom: nom,
-      email: email,
-      role: "membre",
-      statut: "attente",
-      createdAt: serverTimestamp()
-    });
 
-    message("Compte créé. En attente de validation par l'administration.");
+    const credential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    await sendEmailVerification(credential.user);
+
+    await setDoc(
+      doc(db, "users", credential.user.uid),
+      {
+        nom: nom,
+        email: email,
+        role: "membre",
+        statut: "attente",
+        createdAt: serverTimestamp()
+      }
+    );
+
+    message(
+      "Compte créé. Vérifiez votre adresse e-mail. Votre compte est en attente de validation."
+    );
+
   } catch (error) {
+
     message("Erreur : " + error.message);
+
   }
+
 });
 
+
+/* CONNEXION */
+
 $("loginBtn").addEventListener("click", async () => {
+
   const email = $("email").value.trim().toLowerCase();
   const password = $("password").value;
 
@@ -134,11 +302,23 @@ $("loginBtn").addEventListener("click", async () => {
   }
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
   } catch (error) {
+
     message("Connexion impossible : " + error.message);
+
   }
+
 });
+
+
+/* VÉRIFICATION DU COMPTE */
 
 onAuthStateChanged(auth, async user => {
 
@@ -158,13 +338,20 @@ onAuthStateChanged(auth, async user => {
 
     const currentUser = auth.currentUser;
 
+    if (!currentUser) {
+      $("authPanel").classList.remove("hidden");
+      return;
+    }
+
     const isAdmin =
       currentUser.email &&
-      currentUser.email.toLowerCase() === "simeonsadrack39@gmail.com" &&
+      currentUser.email.toLowerCase() === ADMIN_EMAIL &&
       currentUser.emailVerified === true;
 
     if (isAdmin) {
+
       $("adminPanel").classList.remove("hidden");
+
       return;
     }
 
@@ -173,22 +360,33 @@ onAuthStateChanged(auth, async user => {
     );
 
     if (!profile.exists()) {
+
       $("authPanel").classList.remove("hidden");
+
       message("Profil utilisateur introuvable.");
+
       await signOut(auth);
+
       return;
     }
 
     const data = profile.data();
 
     if (data.statut !== "actif") {
+
       $("authPanel").classList.remove("hidden");
-      message("Votre compte est en attente de validation.");
+
+      message(
+        "Votre compte est en attente de validation."
+      );
+
       await signOut(auth);
+
       return;
     }
 
     $("authPanel").classList.add("hidden");
+
     $("memberPanel").classList.remove("hidden");
 
     $("welcome").textContent =
@@ -197,16 +395,34 @@ onAuthStateChanged(auth, async user => {
   } catch (error) {
 
     $("authPanel").classList.remove("hidden");
-    message("Erreur de vérification : " + error.message);
+
+    message(
+      "Erreur de vérification : " + error.message
+    );
 
   }
 
 });
 
+
+/* DÉCONNEXION MEMBRE */
+
 $("logoutBtn").addEventListener("click", async () => {
+
   await signOut(auth);
+
+});
+
+
+/* DÉCONNEXION ADMINISTRATEUR */
+
+$("adminLogoutBtn").addEventListener("click", async () => {
+
+  await signOut(auth);
+
 });
 
 </script>
+
 </body>
 </html>
