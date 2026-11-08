@@ -23,7 +23,7 @@
     header {
       background: #123b70;
       color: white;
-      padding: 25px 16px;
+      padding: 30px 16px;
       text-align: center;
     }
 
@@ -38,15 +38,16 @@
 
     main {
       max-width: 520px;
-      margin: 25px auto;
+      margin: 30px auto;
       padding: 16px;
     }
 
     .panel {
       background: white;
-      padding: 22px;
+      padding: 24px;
       border-radius: 14px;
       box-shadow: 0 3px 15px #00000012;
+      text-align: center;
     }
 
     h2 {
@@ -55,21 +56,29 @@
 
     button {
       width: 100%;
-      padding: 14px;
-      margin: 8px 0;
+      padding: 15px;
+      margin: 10px 0;
       border: 0;
-      border-radius: 8px;
+      border-radius: 9px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      background: #123b70;
-      color: white;
     }
 
     .google-btn {
       background: white;
       color: #263238;
       border: 1px solid #ccd5e2;
+    }
+
+    .logout-btn {
+      background: #123b70;
+      color: white;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
     }
 
     .hidden {
@@ -81,6 +90,7 @@
       border-radius: 8px;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
+      font-size: 14px;
     }
 
     footer {
@@ -102,19 +112,19 @@
 
 <main>
 
-  <!-- CONNEXION GOOGLE -->
+  <!-- ÉCRAN DE CONNEXION -->
 
-  <section class="panel" id="authPanel">
+  <section class="panel hidden" id="authPanel">
 
     <h2>Bienvenue</h2>
 
     <p>
-      Connectez-vous avec votre compte Google pour accéder
-      à CONNAISSANCES+.
+      Connectez-vous avec votre compte Google
+      pour accéder à votre espace académique.
     </p>
 
     <button class="google-btn" id="googleBtn">
-      Continuer avec Google
+      🌐 Continuer avec Google
     </button>
 
     <p id="message"></p>
@@ -138,7 +148,7 @@
       Votre plateforme de connaissances et d'apprentissage.
     </p>
 
-    <button id="logoutBtn">
+    <button class="logout-btn" id="logoutBtn">
       Se déconnecter
     </button>
 
@@ -153,11 +163,9 @@
 
     <p>Bienvenue dans votre espace d'administration.</p>
 
-    <p>
-      CONNAISSANCES+ · Gestion de la plateforme éducative.
-    </p>
+    <p id="adminWelcome"></p>
 
-    <button id="adminLogoutBtn">
+    <button class="logout-btn" id="adminLogoutBtn">
       Se déconnecter
     </button>
 
@@ -178,7 +186,8 @@ import { initializeApp } from
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   onAuthStateChanged,
   signOut
 } from
@@ -222,34 +231,44 @@ googleProvider.setCustomParameters({
 
 const $ = id => document.getElementById(id);
 
-const message = text => {
+let checkingAccount = false;
+
+
+/* AFFICHAGE DES ÉCRANS */
+
+function hideAllPanels() {
+  $("authPanel").classList.add("hidden");
+  $("memberPanel").classList.add("hidden");
+  $("adminPanel").classList.add("hidden");
+}
+
+function showMessage(text) {
   $("message").textContent = text;
-};
+}
 
 
-/* CONNEXION AVEC GOOGLE */
+/* CONNEXION GOOGLE */
 
 $("googleBtn").addEventListener("click", async () => {
 
   $("googleBtn").disabled = true;
-  message("Connexion à Google en cours...");
+
+  showMessage("Connexion à Google en cours...");
 
   try {
 
-    await signInWithPopup(auth, googleProvider);
+    await signInWithRedirect(auth, googleProvider);
 
   } catch (error) {
 
     console.error(error);
 
-    message(
-      "Connexion Google impossible : " +
+    showMessage(
+      "Erreur Google : " +
       error.code +
       " - " +
       error.message
     );
-
-  } finally {
 
     $("googleBtn").disabled = false;
 
@@ -258,17 +277,45 @@ $("googleBtn").addEventListener("click", async () => {
 });
 
 
-/* VÉRIFICATION DU COMPTE */
+/* RÉSULTAT DE REDIRECTION GOOGLE */
+
+try {
+
+  await getRedirectResult(auth);
+
+} catch (error) {
+
+  console.error(error);
+
+  $("authPanel").classList.remove("hidden");
+
+  showMessage(
+    "Connexion Google impossible : " +
+    error.code +
+    " - " +
+    error.message
+  );
+
+}
+
+
+/* VÉRIFICATION ET CRÉATION DU PROFIL */
 
 onAuthStateChanged(auth, async user => {
 
-  $("authPanel").classList.add("hidden");
-  $("memberPanel").classList.add("hidden");
-  $("adminPanel").classList.add("hidden");
+  if (checkingAccount) return;
+
+  checkingAccount = true;
+
+  hideAllPanels();
 
   if (!user) {
 
     $("authPanel").classList.remove("hidden");
+
+    $("googleBtn").disabled = false;
+
+    checkingAccount = false;
 
     return;
   }
@@ -281,12 +328,11 @@ onAuthStateChanged(auth, async user => {
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
-      $("authPanel").classList.remove("hidden");
-      return;
+      throw new Error("Utilisateur Firebase introuvable.");
     }
 
 
-    /* VÉRIFICATION ADMINISTRATEUR */
+    /* ADMINISTRATEUR */
 
     const isAdmin =
       currentUser.email &&
@@ -295,13 +341,18 @@ onAuthStateChanged(auth, async user => {
 
     if (isAdmin) {
 
+      $("adminWelcome").textContent =
+        currentUser.displayName || currentUser.email;
+
       $("adminPanel").classList.remove("hidden");
+
+      checkingAccount = false;
 
       return;
     }
 
 
-    /* VÉRIFICATION DU PROFIL MEMBRE */
+    /* RECHERCHE DU PROFIL */
 
     const profileRef = doc(
       db,
@@ -309,12 +360,12 @@ onAuthStateChanged(auth, async user => {
       currentUser.uid
     );
 
-    const profile = await getDoc(profileRef);
+    const profileSnap = await getDoc(profileRef);
 
 
-    /* CRÉATION DU PROFIL SI NOUVEAU MEMBRE */
+    /* CRÉATION AUTOMATIQUE DU NOUVEAU PROFIL */
 
-    if (!profile.exists()) {
+    if (!profileSnap.exists()) {
 
       await setDoc(profileRef, {
 
@@ -330,57 +381,68 @@ onAuthStateChanged(auth, async user => {
 
       });
 
+      hideAllPanels();
+
       $("authPanel").classList.remove("hidden");
 
-      message(
+      showMessage(
         "Votre compte a été créé. Il est en attente de validation par l'administration."
       );
 
       await signOut(auth);
 
+      checkingAccount = false;
+
       return;
     }
 
 
-    /* CONTRÔLE DU STATUT */
+    /* VÉRIFICATION DU STATUT */
 
-    const data = profile.data();
+    const data = profileSnap.data();
 
     if (data.statut !== "actif") {
 
+      hideAllPanels();
+
       $("authPanel").classList.remove("hidden");
 
-      message(
+      showMessage(
         "Votre compte est en attente de validation."
       );
 
       await signOut(auth);
 
+      checkingAccount = false;
+
       return;
     }
 
 
-    /* ACCÈS MEMBRE */
-
-    $("memberPanel").classList.remove("hidden");
+    /* ESPACE MEMBRE */
 
     $("welcome").textContent =
       "Bienvenue, " +
       (data.nom || currentUser.displayName || currentUser.email);
 
+    $("memberPanel").classList.remove("hidden");
 
   } catch (error) {
 
     console.error(error);
 
+    hideAllPanels();
+
     $("authPanel").classList.remove("hidden");
 
-    message(
+    showMessage(
       "Erreur de vérification : " +
       error.message
     );
 
   }
+
+  checkingAccount = false;
 
 });
 
