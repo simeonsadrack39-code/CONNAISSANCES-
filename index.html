@@ -53,29 +53,23 @@
       margin-top: 0;
     }
 
-    input, button {
+    button {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       margin: 8px 0;
+      border: 0;
       border-radius: 8px;
       font-size: 16px;
-    }
-
-    input {
-      border: 1px solid #ccd5e2;
-    }
-
-    button {
-      border: 0;
-      background: #123b70;
-      color: white;
       font-weight: bold;
       cursor: pointer;
+      background: #123b70;
+      color: white;
     }
 
-    button.secondary {
-      background: #e7edf6;
-      color: #123b70;
+    .google-btn {
+      background: white;
+      color: #263238;
+      border: 1px solid #ccd5e2;
     }
 
     .hidden {
@@ -86,6 +80,7 @@
       padding: 10px;
       border-radius: 8px;
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     footer {
@@ -107,38 +102,19 @@
 
 <main>
 
-  <!-- CONNEXION ET INSCRIPTION -->
+  <!-- CONNEXION GOOGLE -->
 
   <section class="panel" id="authPanel">
 
     <h2>Bienvenue</h2>
 
-    <p>Connectez-vous ou créez votre compte.</p>
+    <p>
+      Connectez-vous avec votre compte Google pour accéder
+      à CONNAISSANCES+.
+    </p>
 
-    <input
-      id="nom"
-      type="text"
-      placeholder="Nom complet"
-    >
-
-    <input
-      id="email"
-      type="email"
-      placeholder="Adresse e-mail"
-    >
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Mot de passe"
-    >
-
-    <button id="registerBtn">
-      Créer un compte
-    </button>
-
-    <button class="secondary" id="loginBtn">
-      Se connecter
+    <button class="google-btn" id="googleBtn">
+      Continuer avec Google
     </button>
 
     <p id="message"></p>
@@ -154,7 +130,9 @@
 
     <p id="welcome"></p>
 
-    <p>Bienvenue sur CONNAISSANCES+.</p>
+    <p>
+      Bienvenue sur CONNAISSANCES+.
+    </p>
 
     <p>
       Votre plateforme de connaissances et d'apprentissage.
@@ -199,9 +177,8 @@ import { initializeApp } from
 
 import {
   getAuth,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
   onAuthStateChanged,
   signOut
 } from
@@ -229,11 +206,19 @@ const firebaseConfig = {
 };
 
 
+/* INITIALISATION */
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 const ADMIN_EMAIL = "simeonsadrack39@gmail.com";
+
+const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
+  prompt: "select_account"
+});
 
 const $ = id => document.getElementById(id);
 
@@ -242,76 +227,31 @@ const message = text => {
 };
 
 
-/* CRÉATION DE COMPTE */
+/* CONNEXION AVEC GOOGLE */
 
-$("registerBtn").addEventListener("click", async () => {
+$("googleBtn").addEventListener("click", async () => {
 
-  const nom = $("nom").value.trim();
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value;
-
-  if (!nom || !email || !password) {
-    message("Veuillez remplir tous les champs.");
-    return;
-  }
+  $("googleBtn").disabled = true;
+  message("Connexion à Google en cours...");
 
   try {
 
-    const credential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    await signInWithPopup(auth, googleProvider);
 
-    await sendEmailVerification(credential.user);
+  } catch (error) {
 
-    await setDoc(
-      doc(db, "users", credential.user.uid),
-      {
-        nom: nom,
-        email: email,
-        role: "membre",
-        statut: "attente",
-        createdAt: serverTimestamp()
-      }
-    );
+    console.error(error);
 
     message(
-      "Compte créé. Vérifiez votre adresse e-mail. Votre compte est en attente de validation."
+      "Connexion Google impossible : " +
+      error.code +
+      " - " +
+      error.message
     );
 
-  } catch (error) {
+  } finally {
 
-    message("Erreur : " + error.message);
-
-  }
-
-});
-
-
-/* CONNEXION */
-
-$("loginBtn").addEventListener("click", async () => {
-
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value;
-
-  if (!email || !password) {
-    message("Veuillez saisir votre e-mail et votre mot de passe.");
-    return;
-  }
-
-  try {
-
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  } catch (error) {
-
-    message("Connexion impossible : " + error.message);
+    $("googleBtn").disabled = false;
 
   }
 
@@ -327,7 +267,9 @@ onAuthStateChanged(auth, async user => {
   $("adminPanel").classList.add("hidden");
 
   if (!user) {
+
     $("authPanel").classList.remove("hidden");
+
     return;
   }
 
@@ -343,6 +285,9 @@ onAuthStateChanged(auth, async user => {
       return;
     }
 
+
+    /* VÉRIFICATION ADMINISTRATEUR */
+
     const isAdmin =
       currentUser.email &&
       currentUser.email.toLowerCase() === ADMIN_EMAIL &&
@@ -355,20 +300,49 @@ onAuthStateChanged(auth, async user => {
       return;
     }
 
-    const profile = await getDoc(
-      doc(db, "users", currentUser.uid)
+
+    /* VÉRIFICATION DU PROFIL MEMBRE */
+
+    const profileRef = doc(
+      db,
+      "users",
+      currentUser.uid
     );
+
+    const profile = await getDoc(profileRef);
+
+
+    /* CRÉATION DU PROFIL SI NOUVEAU MEMBRE */
 
     if (!profile.exists()) {
 
+      await setDoc(profileRef, {
+
+        nom: currentUser.displayName || "Membre",
+
+        email: currentUser.email,
+
+        role: "membre",
+
+        statut: "attente",
+
+        createdAt: serverTimestamp()
+
+      });
+
       $("authPanel").classList.remove("hidden");
 
-      message("Profil utilisateur introuvable.");
+      message(
+        "Votre compte a été créé. Il est en attente de validation par l'administration."
+      );
 
       await signOut(auth);
 
       return;
     }
+
+
+    /* CONTRÔLE DU STATUT */
 
     const data = profile.data();
 
@@ -385,19 +359,25 @@ onAuthStateChanged(auth, async user => {
       return;
     }
 
-    $("authPanel").classList.add("hidden");
+
+    /* ACCÈS MEMBRE */
 
     $("memberPanel").classList.remove("hidden");
 
     $("welcome").textContent =
-      "Bienvenue, " + (data.nom || currentUser.email);
+      "Bienvenue, " +
+      (data.nom || currentUser.displayName || currentUser.email);
+
 
   } catch (error) {
+
+    console.error(error);
 
     $("authPanel").classList.remove("hidden");
 
     message(
-      "Erreur de vérification : " + error.message
+      "Erreur de vérification : " +
+      error.message
     );
 
   }
