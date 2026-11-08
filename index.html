@@ -141,16 +141,39 @@ $("loginBtn").addEventListener("click", async () => {
 });
 
 onAuthStateChanged(auth, async user => {
+
+  $("authPanel").classList.add("hidden");
+  $("memberPanel").classList.add("hidden");
+  $("adminPanel").classList.add("hidden");
+
   if (!user) {
     $("authPanel").classList.remove("hidden");
-    $("memberPanel").classList.add("hidden");
     return;
   }
 
   try {
-    const profile = await getDoc(doc(db, "users", user.uid));
+
+    await user.reload();
+    await user.getIdToken(true);
+
+    const currentUser = auth.currentUser;
+
+    const isAdmin =
+      currentUser.email &&
+      currentUser.email.toLowerCase() === "simeonsadrack39@gmail.com" &&
+      currentUser.emailVerified === true;
+
+    if (isAdmin) {
+      $("adminPanel").classList.remove("hidden");
+      return;
+    }
+
+    const profile = await getDoc(
+      doc(db, "users", currentUser.uid)
+    );
 
     if (!profile.exists()) {
+      $("authPanel").classList.remove("hidden");
       message("Profil utilisateur introuvable.");
       await signOut(auth);
       return;
@@ -159,6 +182,7 @@ onAuthStateChanged(auth, async user => {
     const data = profile.data();
 
     if (data.statut !== "actif") {
+      $("authPanel").classList.remove("hidden");
       message("Votre compte est en attente de validation.");
       await signOut(auth);
       return;
@@ -166,15 +190,23 @@ onAuthStateChanged(auth, async user => {
 
     $("authPanel").classList.add("hidden");
     $("memberPanel").classList.remove("hidden");
-    $("welcome").textContent = "Bienvenue, " + (data.nom || user.email);
+
+    $("welcome").textContent =
+      "Bienvenue, " + (data.nom || currentUser.email);
+
   } catch (error) {
-    message("Erreur de lecture du profil : " + error.message);
+
+    $("authPanel").classList.remove("hidden");
+    message("Erreur de vérification : " + error.message);
+
   }
+
 });
 
 $("logoutBtn").addEventListener("click", async () => {
   await signOut(auth);
 });
+
 </script>
 </body>
 </html>
