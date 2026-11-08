@@ -2,710 +2,478 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#123c69">
-<title>CONNAISSANCES+ — Votre plateforme éducative haïtienne</title>
+<title>CONNAISSANCES+ — Plateforme éducative</title>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-
 <style>
-:root {
-  --blue:#123c69;
-  --blue2:#1d5d96;
-  --light:#f2f6fb;
-  --white:#fff;
-  --text:#203047;
-  --green:#16845b;
-  --red:#c0392b;
-  --orange:#d35400;
-  --gray:#e2e8f0;
-}
+:root{--blue:#123c69;--blue2:#1d5d96;--light:#f2f6fb;--text:#203047;--green:#16845b;--red:#c0392b;--orange:#d35400}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--light);
-  color:var(--text);
-}
-header{
-  background:var(--blue);
-  color:white;
-  padding:15px 22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-header h2{margin:0;font-size:20px;display:flex;align-items:center;gap:8px;}
-button{
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  cursor:pointer;
-  font-weight:bold;
-  font-size:14px;
-  transition:opacity 0.2s;
-}
-button:hover{opacity:0.9}
-.primary{background:var(--blue2);color:white}
-.danger{background:var(--red);color:white}
-.success{background:var(--green);color:white}
-.warning{background:var(--orange);color:white}
-
-.login{
-  max-width:440px;
-  margin:70px auto;
-  background:white;
-  padding:32px;
-  border-radius:15px;
-  text-align:center;
-  box-shadow:0 4px 18px #0001;
-}
-.login h1{color:var(--blue);margin-bottom:5px;}
-.login h3{color:var(--blue2);margin-top:0;font-weight:normal;}
-#app{display:block}
-.layout{
-  display:flex;
-  min-height:calc(100vh - 60px);
-}
-nav{
-  width:250px;
-  background:#fff;
-  padding:15px;
-  border-right:1px solid #ddd;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-nav button{
-  display:block;
-  width:100%;
-  text-align:left;
-  background:white;
-  color:var(--text);
-  padding:12px 14px;
-  border-radius:8px;
-}
-nav button:hover,nav button.active{
-  background:#e7f0fa;
-  color:var(--blue);
-}
-main{flex:1;padding:24px;min-width:0;max-width:1200px;}
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-  margin-top:20px;
-}
-.card{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 2px 9px #0000000a;
-  border-top:4px solid var(--blue2);
-}
-.card h3{margin-top:0;color:var(--blue)}
-.card button{margin-top:14px;width:100%}
-input,select,textarea{
-  width:100%;
-  padding:12px;
-  margin:6px 0 14px;
-  border:1px solid #ccd5df;
-  border-radius:8px;
-  font:inherit;
-}
-textarea{min-height:100px}
-.formbox{
-  background:white;
-  padding:22px;
-  border-radius:12px;
-  margin-bottom:20px;
-  box-shadow:0 2px 8px #0000000a;
-}
-.item{
-  background:white;
-  padding:16px;
-  margin:12px 0;
-  border-radius:10px;
-  border-left:4px solid var(--blue2);
-  box-shadow:0 1px 4px #00000008;
-}
+body{margin:0;font-family:Arial,sans-serif;background:var(--light);color:var(--text)}
+header{background:var(--blue);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:bold;margin:3px}
+.primary{background:var(--blue2);color:white}.success{background:var(--green);color:white}.danger{background:var(--red);color:white}.warning{background:var(--orange);color:white}
+.login{max-width:440px;margin:60px auto;background:white;padding:30px;border-radius:14px;text-align:center;box-shadow:0 3px 15px #0001}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+nav{width:245px;background:white;padding:12px;display:flex;flex-direction:column;gap:5px;border-right:1px solid #ddd}
+nav button{text-align:left;background:white;color:var(--text);width:100%}
+nav button.active,nav button:hover{background:#e7f0fa;color:var(--blue)}
+main{flex:1;padding:22px;min-width:0;max-width:1250px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
+.card,.formbox,.item{background:white;padding:18px;border-radius:11px;margin:12px 0;box-shadow:0 2px 8px #0000000a}
+.card{border-top:4px solid var(--blue2)}
+.item{border-left:4px solid var(--blue2)}
+input,select,textarea{width:100%;padding:11px;margin:6px 0 13px;border:1px solid #ccd5df;border-radius:7px;font:inherit}
+textarea{min-height:110px}
+label{font-weight:bold;font-size:14px}
 .muted{color:#6d7887;font-size:14px}
 .hidden{display:none!important}
-#message{
-  padding:12px 16px;
-  border-radius:8px;
-  margin:0 0 16px 0;
-  background:#e7f0fa;
-  color:var(--blue);
-  font-weight:bold;
-}
-.badge{
-  display:inline-block;
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:bold;
-  background:#e2e8f0;
-  color:var(--text);
-}
-.badge.actif,.badge.publie{background:#d4edda;color:#155724;}
-.badge.attente{background:#fff3cd;color:#856404;}
-.table-container{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;margin-top:15px;}
-th,td{padding:12px 15px;text-align:left;border-bottom:1px solid #eee;font-size:14px;}
-th{background:var(--blue);color:white;}
-@media(max-width:768px){
-  .layout{display:block}
-  nav{
-    width:100%;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    border-right:0;
-    border-bottom:1px solid #ddd;
-    padding:10px;
-    gap:6px;
-  }
-  nav button{font-size:12px;padding:10px;}
-  main{padding:16px}
-}
+#message{padding:12px;border-radius:8px;margin-bottom:14px;background:#e7f0fa}
+.badge{display:inline-block;background:#e2e8f0;padding:4px 8px;border-radius:6px;font-size:12px}
+.badge.publie{background:#d4edda;color:#155724}.badge.attente{background:#fff3cd;color:#856404}
+table{width:100%;border-collapse:collapse;background:white;margin-top:12px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;font-size:13px}
+th{background:var(--blue);color:white}
+.table-container{overflow-x:auto}
+.question{padding:14px;border:1px solid #ddd;border-radius:8px;margin:12px 0;background:white}
+@media(max-width:760px){.layout{display:block}nav{width:100%;display:grid;grid-template-columns:repeat(2,1fr)}nav button{font-size:12px;padding:9px}main{padding:12px}}
 </style>
 </head>
-
 <body>
 
 <header>
   <h2>📚 CONNAISSANCES+</h2>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <span id="headerUser" style="font-size:14px;font-weight:bold;"></span>
-    <button class="danger" style="padding:6px 10px;font-size:12px;" onclick="logout()">Déconnexion</button>
+  <div>
+    <span id="headerUser"></span>
+    <button class="danger" onclick="logout()">Déconnexion</button>
   </div>
 </header>
 
-<!-- ÉCRAN DE CONNEXION -->
 <section id="loginPanel" class="login">
   <h1>CONNAISSANCES+</h1>
   <h3>Le savoir ouvre toutes les portes.</h3>
-  <p style="margin:20px 0;color:#555;">Votre plateforme éducative haïtienne officielle.</p>
-  <button class="primary" style="width:100%;padding:14px;font-size:16px;" onclick="loginGoogle()">
-    🚀 Continuer avec Google
-  </button>
-  <div id="loginMessage" style="margin-top:15px;font-size:14px;color:#c0392b;"></div>
+  <p>Votre plateforme éducative haïtienne.</p>
+  <button class="primary" style="width:100%" onclick="loginGoogle()">🚀 Continuer avec Google</button>
+  <p id="loginMessage" class="muted"></p>
 </section>
 
-<!-- APPLICATION PRINCIPALE -->
 <section id="app" class="hidden">
-  <div class="layout">
-    <nav id="menu">
-      <button class="active" onclick="showPage('accueil',this)">🏠 Accueil</button>
-      <button onclick="showPage('niveaux',this)">🎓 Niveaux scolaires</button>
-      <button onclick="showPage('matieres',this)">📘 Matières</button>
-      <button onclick="showPage('cours',this)">📚 Cours</button>
-      <button onclick="showPage('lecons',this)">📝 Leçons</button>
-      <button onclick="showPage('exercices',this)">✍️ Exercices</button>
-      <button onclick="showPage('examens',this)">📋 Examens et quiz</button>
-      <button onclick="showPage('resultats',this)">📊 Résultats</button>
-      <button onclick="showPage('progression',this)">📈 Progression</button>
-      <button id="teacherMenu" class="hidden" onclick="showPage('enseignant',this)">👨‍🏫 Espace Enseignant</button>
-      <button id="adminMenu" class="hidden" onclick="showPage('administration',this)">⚙️ Administration</button>
-    </nav>
-
-    <main>
-      <div id="message" class="hidden"></div>
-      <div id="pageContent"></div>
-    </main>
-  </div>
+<div class="layout">
+<nav id="menu">
+  <button class="active" onclick="showPage('accueil',this)">🏠 Accueil</button>
+  <button onclick="showPage('niveaux',this)">🎓 Niveaux</button>
+  <button onclick="showPage('matieres',this)">📘 Matières</button>
+  <button onclick="showPage('cours',this)">📚 Cours</button>
+  <button onclick="showPage('lecons',this)">📝 Leçons</button>
+  <button onclick="showPage('exercices',this)">✍️ Exercices</button>
+  <button onclick="showPage('examens',this)">📋 Examens et quiz</button>
+  <button onclick="showPage('resultats',this)">📊 Résultats</button>
+  <button onclick="showPage('progression',this)">📈 Progression</button>
+  <button id="teacherMenu" class="hidden" onclick="showPage('enseignant',this)">👨‍🏫 Enseignant</button>
+  <button id="adminMenu" class="hidden" onclick="showPage('administration',this)">⚙️ Administration</button>
+</nav>
+<main>
+  <div id="message" class="hidden"></div>
+  <div id="pageContent"></div>
+</main>
+</div>
 </section>
 
-<!-- SCRIPTS FIREBASE ET APPLICATION -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, getDocs, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import {
+ getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,
+ onAuthStateChanged,signOut
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+ getFirestore,doc,getDoc,setDoc,addDoc,collection,getDocs,
+ updateDoc,deleteDoc,query,where,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAaF4sq1z27ZscLfMHo5GufkPxnu0-rbnA",
-  authDomain: "konesans-plus.firebaseapp.com",
-  projectId: "konesans-plus",
-  storageBucket: "konesans-plus.firebasestorage.app",
-  messagingSenderId: "374720398601",
-  appId: "1:374720398601:web:ed9ffff17f25bff5b73fd8"
+const firebaseConfig={
+ apiKey:"AIzaSyAaF4sq1z27ZscLfMHo5GufkPxnu0-rbnA",
+ authDomain:"konesans-plus.firebaseapp.com",
+ projectId:"konesans-plus",
+ storageBucket:"konesans-plus.firebasestorage.app",
+ messagingSenderId:"374720398601",
+ appId:"1:374720398601:web:ed9ffff17f25bff5b73fd8"
 };
 
-const ADMIN_EMAIL = "simeonsadrack39@gmail.com";
-const ADMIN_UID = "DcJwjMmGqAOHqtzE9vYLxKAJeIJ3";
+const ADMIN_EMAIL="simeonsadrack39@gmail.com";
+const ADMIN_UID="DcJwjMmGqAOHqtzE9vYLxKAJeIJ3";
+const AI_WORKER_URL="COLLE_URL_CLOUDFLARE_WORKER_LA_ISIT";
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-const provider = new GoogleAuthProvider();
+const appFirebase=initializeApp(firebaseConfig);
+const auth=getAuth(appFirebase);
+const db=getFirestore(appFirebase);
+const provider=new GoogleAuthProvider();
 
-let currentUser = null;
-let isAdmin = false;
-let isTeacher = false;
-let currentProfile = null;
+let currentUser=null,currentProfile=null,isAdmin=false,isTeacher=false;
+let editingId=null,editingCollection=null;
 
-const niveauxDefaut = [
-  "1ère année fondamentale", "2ème année fondamentale", "3ème année fondamentale",
-  "4ème année fondamentale", "5ème année fondamentale", "6ème année fondamentale",
-  "7ème année fondamentale", "8ème année fondamentale", "9ème année fondamentale",
-  "Secondaire 1", "Secondaire 2", "Secondaire 3", "Secondaire 4 / NS4", "Philo"
+const niveaux=[
+"1ère année fondamentale","2ème année fondamentale","3ème année fondamentale",
+"4ème année fondamentale","5ème année fondamentale","6ème année fondamentale",
+"7ème année fondamentale","8ème année fondamentale","9ème année fondamentale",
+"Secondaire 1 / NS1","Secondaire 2 / NS2","Secondaire 3 / NS3",
+"Secondaire 4 / NS4","Philo"
 ];
-
-const matieresDefaut = [
-  "Français", "Créole haïtien", "Mathématiques", "Sciences sociales", "Histoire",
-  "Géographie", "Sciences expérimentales", "Sciences de la vie et de la Terre",
-  "Physique", "Chimie", "Anglais", "Espagnol", "Éducation physique et sportive",
-  "Éducation à la citoyenneté", "Philosophie", "Littérature française", "Littérature haïtienne"
+const matieres=[
+"Français","Créole haïtien","Mathématiques","Sciences sociales","Histoire",
+"Géographie","Sciences expérimentales","SVT","Physique","Chimie",
+"Anglais","Espagnol","Éducation physique et sportive",
+"Éducation à la citoyenneté","Philosophie","Littérature française",
+"Littérature haïtienne"
 ];
-
-window.loginGoogle = async function(){
-  const msgEl = document.getElementById("loginMessage");
-  if(msgEl) msgEl.textContent = "";
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    try {
-      await signInWithRedirect(auth, provider);
-    } catch(err) {
-      if(msgEl) msgEl.textContent = "Erreur de connexion : " + err.message;
-    }
-  }
+const titres={
+niveaux:"Niveaux scolaires",matieres:"Matières",cours:"Cours",
+lecons:"Leçons",exercices:"Exercices",examens:"Examens et quiz"
 };
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-window.logout = async function(){
-  await signOut(auth);
+function msg(t,error=false){
+ $("message").textContent=t;
+ $("message").style.background=error?"#fadbd8":"#e7f0fa";
+ $("message").classList.remove("hidden");
+}
+function hideMsg(){$("message").classList.add("hidden");}
+
+window.loginGoogle=async()=>{
+ $("loginMessage").textContent="";
+ try{await signInWithPopup(auth,provider);}
+ catch(e){
+  try{await signInWithRedirect(auth,provider);}
+  catch(err){$("loginMessage").textContent="Connexion impossible : "+err.message;}
+ }
 };
+window.logout=()=>signOut(auth);
 
-function showMessage(msg, isError=false){
-  const el = document.getElementById("message");
-  if(!el) return;
-  el.textContent = msg;
-  el.style.background = isError ? "#fadbd8" : "#e7f0fa";
-  el.style.color = isError ? "#900c3f" : "var(--blue)";
-  el.classList.remove("hidden");
-}
-
-function hideMessage(){
-  const el = document.getElementById("message");
-  if(el) el.classList.add("hidden");
-}
-
-onAuthStateChanged(auth, async user => {
-  const loginPanel = document.getElementById("loginPanel");
-  const appPanel = document.getElementById("app");
-  const headerUser = document.getElementById("headerUser");
-
-  if(!user){
-    currentUser = null;
-    if(loginPanel) loginPanel.classList.remove("hidden");
-    if(appPanel) appPanel.classList.add("hidden");
-    if(headerUser) headerUser.textContent = "";
-    return;
+onAuthStateChanged(auth,async user=>{
+ if(!user){
+  currentUser=null;currentProfile=null;isAdmin=false;isTeacher=false;
+  $("loginPanel").classList.remove("hidden");
+  $("app").classList.add("hidden");
+  $("headerUser").textContent="";
+  return;
+ }
+ currentUser=user;
+ isAdmin=user.uid===ADMIN_UID||(user.email||"").toLowerCase()===ADMIN_EMAIL;
+ try{
+  const ref=doc(db,"users",user.uid);
+  let snap=await getDoc(ref);
+  if(!snap.exists()){
+   await setDoc(ref,{
+    nom:user.displayName||"Utilisateur",email:user.email||"",
+    role:isAdmin?"administrateur":"eleve",
+    statut:isAdmin?"actif":"attente",createdAt:serverTimestamp()
+   });
+   snap=await getDoc(ref);
   }
-
-  currentUser = user;
-  const email = (user.email || "").toLowerCase();
-  isAdmin = (email === ADMIN_EMAIL || user.uid === ADMIN_UID);
-
-  try {
-    const profileRef = doc(db, "users", user.uid);
-    let profileSnap = await getDoc(profileRef);
-
-    if(!profileSnap.exists()){
-      const defaultRole = isAdmin ? "administrateur" : "eleve";
-      const defaultStatut = isAdmin ? "actif" : "attente";
-      await setDoc(profileRef, {
-        nom: user.displayName || "Utilisateur",
-        email: user.email,
-        role: defaultRole,
-        statut: defaultStatut,
-        createdAt: serverTimestamp()
-      });
-      profileSnap = await getDoc(profileRef);
-    }
-
-    currentProfile = profileSnap.data();
-    if(isAdmin && (currentProfile.statut !== "actif" || currentProfile.role !== "administrateur")){
-      await updateDoc(profileRef, { statut: "actif", role: "administrateur" });
-      currentProfile.statut = "actif";
-      currentProfile.role = "administrateur";
-    }
-
-    if(!isAdmin && currentProfile.statut !== "actif"){
-      await signOut(auth);
-      if(loginPanel) loginPanel.classList.remove("hidden");
-      if(appPanel) appPanel.classList.add("hidden");
-      const loginMsg = document.getElementById("loginMessage");
-      if(loginMsg) loginMsg.textContent = "Votre compte est en attente d'approbation par l'administrateur.";
-      return;
-    }
-
-    isTeacher = (currentProfile.role === "professeur" || isAdmin);
-
-    if(loginPanel) loginPanel.classList.add("hidden");
-    if(appPanel) appPanel.classList.remove("hidden");
-    if(headerUser) headerUser.textContent = `${user.displayName || user.email} (${currentProfile.role})`;
-
-    const adminMenu = document.getElementById("adminMenu");
-    const teacherMenu = document.getElementById("teacherMenu");
-    if(adminMenu) adminMenu.classList.toggle("hidden", !isAdmin);
-    if(teacherMenu) teacherMenu.classList.toggle("hidden", !isTeacher && !isAdmin);
-
-    await showPage("accueil");
-  } catch(e) {
-    console.error(e);
-    showMessage("Erreur d'initialisation du profil : " + e.message, true);
+  currentProfile=snap.data();
+  if(isAdmin && (currentProfile.role!=="administrateur"||currentProfile.statut!=="actif")){
+   await updateDoc(ref,{role:"administrateur",statut:"actif"});
+   currentProfile.role="administrateur";currentProfile.statut="actif";
   }
+  if(!isAdmin&&currentProfile.statut!=="actif"){
+   await signOut(auth);
+   $("loginMessage").textContent="Votre compte attend l'approbation de l'administrateur.";
+   return;
+  }
+  isTeacher=isAdmin||currentProfile.role==="professeur";
+  $("loginPanel").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  $("headerUser").textContent=(user.displayName||user.email)+" — "+currentProfile.role;
+  $("adminMenu").classList.toggle("hidden",!isAdmin);
+  $("teacherMenu").classList.toggle("hidden",!isTeacher);
+  await showPage("accueil");
+ }catch(e){console.error(e);msg("Erreur de profil : "+e.message,true);}
 });
 
-window.showPage = async function(page, button){
-  hideMessage();
-  if(button){
-    document.querySelectorAll("#menu button").forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-  }
-
-  const area = document.getElementById("pageContent");
-  if(!area) return;
-  area.innerHTML = "<h3>Chargement en cours...</h3>";
-
-  if(page === "accueil"){
-    area.innerHTML = `
-      <h1>Bienvenue sur CONNAISSANCES+</h1>
-      <p class="muted">Le savoir ouvre toutes les portes. Votre plateforme éducative haïtienne.</p>
-      <div class="cards">
-        <div class="card"><h3>🎓 Niveaux scolaires</h3><p>Du fondamental à la Philo.</p><button class="primary" onclick="showPage('niveaux')">Explorer</button></div>
-        <div class="card"><h3>📘 Matières</h3><p>Programmes officiels du MENFP.</p><button class="primary" onclick="showPage('matieres')">Explorer</button></div>
-        <div class="card"><h3>📚 Cours</h3><p>Supports de cours détaillés.</p><button class="primary" onclick="showPage('cours')">Explorer</button></div>
-        <div class="card"><h3>📝 Leçons</h3><p>Apprenez pas à pas.</p><button class="primary" onclick="showPage('lecons')">Explorer</button></div>
-        <div class="card"><h3>✍️ Exercices</h3><p>Pratiquez avec correction instantanée.</p><button class="primary" onclick="showPage('exercices')">Explorer</button></div>
-        <div class="card"><h3>📋 Examens et quiz</h3><p>Testez vos acquis.</p><button class="primary" onclick="showPage('examens')">Explorer</button></div>
-        <div class="card"><h3>📊 Résultats</h3><p>Suivez vos notes et bulletins.</p><button class="primary" onclick="showPage('resultats')">Consulter</button></div>
-        <div class="card"><h3>📈 Progression</h3><p>Visualisez votre avancement.</p><button class="primary" onclick="showPage('progression')">Voir</button></div>
-      </div>`;
-    return;
-  }
-
-  if(page === "administration"){
-    if(!isAdmin){ area.innerHTML = "<p>Accès refusé.</p>"; return; }
-    await renderAdmin(area);
-    return;
-  }
-
-  if(page === "enseignant"){
-    if(!isTeacher && !isAdmin){ area.innerHTML = "<p>Accès refusé.</p>"; return; }
-    await renderTeacherSpace(area);
-    return;
-  }
-
-  if(page === "resultats"){
-    await renderResults(area);
-    return;
-  }
-
-  if(page === "progression"){
-    await renderProgression(area);
-    return;
-  }
-
-  await renderCollection(page, area);
+window.showPage=async(page,button)=>{
+ hideMsg();
+ if(button){
+  document.querySelectorAll("#menu button").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+ }
+ const area=$("pageContent");
+ if(page==="accueil"){
+  area.innerHTML=`
+   <h1>Bienvenue sur CONNAISSANCES+</h1>
+   <p class="muted">Apprendre, pratiquer et progresser.</p>
+   <div class="cards">
+    ${Object.entries(titres).map(([k,v])=>`<div class="card"><h3>${safe(v)}</h3><button class="primary" onclick="showPage('${k}')">Explorer</button></div>`).join("")}
+    <div class="card"><h3>📊 Résultats</h3><button class="primary" onclick="showPage('resultats')">Consulter</button></div>
+    <div class="card"><h3>📈 Progression</h3><button class="primary" onclick="showPage('progression')">Voir</button></div>
+   </div>`;
+  return;
+ }
+ if(page==="administration"){
+  if(!isAdmin){area.textContent="Accès refusé.";return;}
+  await renderAdmin(area);return;
+ }
+ if(page==="enseignant"){
+  if(!isTeacher){area.textContent="Accès refusé.";return;}
+  area.innerHTML=`<h1>Espace Enseignant</h1>
+   <p>Créez des ressources pour vos élèves. Les nouveaux contenus sont des brouillons.</p>
+   <button class="primary" onclick="showPage('cours')">Gérer les cours</button>
+   <button class="primary" onclick="showPage('lecons')">Gérer les leçons</button>
+   <button class="primary" onclick="showPage('exercices')">Gérer les exercices</button>`;
+  return;
+ }
+ if(page==="resultats"){await renderResults(area);return;}
+ if(page==="progression"){await renderProgression(area);return;}
+ if(!titres[page]){area.textContent="Page introuvable.";return;}
+ await renderCollection(page,area);
 };
 
-async function renderCollection(name, area){
-  const titles = {
-    niveaux: "Niveaux scolaires",
-    matieres: "Matières",
-    cours: "Cours",
-    lecons: "Leçons",
-    exercices: "Exercices",
-    examens: "Examens et quiz"
-  };
-
-  let html = `<h1>${titles[name] || name}</h1>`;
-  if(isAdmin || isTeacher){
-    html += `<button class="primary" onclick="showAddForm('${name}')">＋ Ajouter un élément</button>`;
-  }
-  html += `<div id="addArea"></div><div id="listArea"><p class="muted">Chargement des données...</p></div>`;
-  area.innerHTML = html;
-
-  try {
-    const snap = await getDocs(collection(db, name));
-    const list = document.getElementById("listArea");
-    if(!list) return;
-
-    if(snap.empty){
-      list.innerHTML = "<p class='muted'>Aucun contenu disponible pour le moment.</p>";
-      return;
-    }
-
-    list.innerHTML = "";
-    snap.forEach(d => {
-      const x = d.data();
-      const div = document.createElement("div");
-      div.className = "item";
-
-      const title = document.createElement("h3");
-      title.textContent = x.titre || x.nom || "Sans titre";
-      div.appendChild(title);
-
-      if(x.niveau) div.appendChild(makeP("Niveau : " + x.niveau));
-      if(x.matiere) div.appendChild(makeP("Matière : " + x.matiere));
-      if(x.description) div.appendChild(makeP(x.description));
-      if(x.contenu) div.appendChild(makeP(x.contenu));
-
-      if(name === "exercices" || name === "examens"){
-        const btnEval = document.createElement("button");
-        btnEval.className = "success";
-        btnEval.textContent = name === "exercices" ? "✍️ Faire l'exercice" : "📋 Commencer l'évaluation";
-        btnEval.style.marginTop = "10px";
-        btnEval.onclick = () => startEvaluation(d.id, x, name);
-        div.appendChild(btnEval);
-      }
-
-      if(isAdmin){
-        const btnDel = document.createElement("button");
-        btnDel.className = "danger";
-        btnDel.textContent = "Supprimer";
-        btnDel.style.marginLeft = "10px";
-        btnDel.style.marginTop = "10px";
-        btnDel.onclick = async () => {
-          if(confirm("Confirmer la suppression ?")){
-            await deleteDoc(doc(db, name, d.id));
-            showPage(name);
-          }
-        };
-        div.appendChild(btnDel);
-      }
-
-      list.appendChild(div);
-    });
-  } catch(e) {
-    const list = document.getElementById("listArea");
-    if(list) list.textContent = "Erreur de chargement : " + e.message;
-  }
+async function getContentDocs(name){
+ let snap;
+ if(isAdmin){
+  snap=await getDocs(collection(db,name));
+  return snap.docs;
+ }
+ const published=await getDocs(query(collection(db,name),where("publie","==",true)));
+ const docs=new Map(published.docs.map(d=>[d.id,d]));
+ if(isTeacher){
+  const own=await getDocs(query(collection(db,name),where("createdByUid","==",currentUser.uid)));
+  own.docs.forEach(d=>docs.set(d.id,d));
+ }
+ return [...docs.values()];
 }
 
-function makeP(txt){
-  const p = document.createElement("p");
-  p.textContent = txt;
-  return p;
+async function renderCollection(name,area){
+ area.innerHTML=`<h1>${safe(titres[name])}</h1>
+ ${isTeacher?`<button class="primary" onclick="showAddForm('${name}')">＋ Ajouter</button>`:""}
+ <div id="addArea"></div><div id="listArea">Chargement...</div>`;
+ try{
+  const docs=await getContentDocs(name),list=$("listArea");
+  if(!docs.length){list.innerHTML="<p class='muted'>Aucun contenu publié pour le moment.</p>";return;}
+  list.innerHTML="";
+  docs.forEach(d=>{
+   const x=d.data(),el=document.createElement("div");
+   el.className="item";
+   const canEdit=isAdmin||(isTeacher&&x.createdByUid===currentUser.uid);
+   el.innerHTML=`<h3>${safe(x.titre||x.nom||"Sans titre")}</h3>
+    <p class="muted">${safe(x.niveau||"Tous niveaux")} · ${safe(x.matiere||"Toutes matières")}</p>
+    <p>${safe(x.description||x.contenu||"")}</p>
+    <span class="badge ${x.publie?"publie":"attente"}">${x.publie?"Publié":"Brouillon"}</span>`;
+   if(name==="exercices"||name==="examens"){
+    const b=document.createElement("button");b.className="success";
+    b.textContent="Commencer";b.onclick=()=>startEvaluation(d.id,x,name);el.appendChild(b);
+   }
+   if(canEdit){
+    const edit=document.createElement("button");edit.className="primary";edit.textContent="Modifier";
+    edit.onclick=()=>showAddForm(name,d.id,x);el.appendChild(edit);
+   }
+   if(isAdmin){
+    const pub=document.createElement("button");pub.className="warning";
+    pub.textContent=x.publie?"Retirer publication":"Publier";
+    pub.onclick=()=>togglePublish(name,d.id,!x.publie);el.appendChild(pub);
+    const del=document.createElement("button");del.className="danger";del.textContent="Supprimer";
+    del.onclick=()=>removeItem(name,d.id);el.appendChild(del);
+   }
+   list.appendChild(el);
+  });
+ }catch(e){$("listArea").textContent="Erreur : "+e.message;}
 }
 
-window.showAddForm = function(name){
-  const area = document.getElementById("addArea");
-  if(!area) return;
-  area.innerHTML = `
-    <div class="formbox">
-      <h3>Ajouter un contenu (${name})</h3>
-      <label>Titre / Nom</label>
-      <input id="itemTitle" placeholder="Titre explicite">
-      <label>Niveau</label>
-      <select id="itemLevel">
-        <option value="">Sélectionner un niveau</option>
-        ${niveauxDefaut.map(n => `<option>${n}</option>`).join("")}
-      </select>
-      <label>Matière</label>
-      <select id="itemSubject">
-        <option value="">Sélectionner une matière</option>
-        ${matieresDefaut.map(m => `<option>${m}</option>`).join("")}
-      </select>
-      <label>Description / Contenu détaillé</label>
-      <textarea id="itemDesc" placeholder="Contenu de la leçon ou consignes..."></textarea>
-      <button class="success" onclick="saveCollectionItem('${name}')">Enregistrer</button>
-      <button onclick="document.getElementById('addArea').innerHTML=''">Annuler</button>
-    </div>`;
+window.showAddForm=(name,id=null,data={})=>{
+ if(!isTeacher)return;
+ editingId=id;editingCollection=name;
+ const questions=Array.isArray(data.questions)?JSON.stringify(data.questions,null,2):"";
+ $("addArea").innerHTML=`
+ <div class="formbox">
+ <h3>${id?"Modifier":"Ajouter"} — ${safe(titres[name])}</h3>
+ <label>Titre</label><input id="fTitle" value="${safe(data.titre||"")}" placeholder="Titre du contenu">
+ <label>Niveau scolaire</label><select id="fLevel">
+ <option value="">Choisir</option>${niveaux.map(n=>`<option ${data.niveau===n?"selected":""}>${safe(n)}</option>`).join("")}</select>
+ <label>Matière</label><select id="fSubject"><option value="">Choisir</option>
+ ${matieres.map(m=>`<option ${data.matiere===m?"selected":""}>${safe(m)}</option>`).join("")}</select>
+ <label>Description / Contenu</label><textarea id="fDescription">${safe(data.description||data.contenu||"")}</textarea>
+ <label>Questions QCM (JSON facultatif)</label>
+ <textarea id="fQuestions" placeholder='[{"type":"qcm","question":"2 + 2 = ?","options":["2","3","4"],"correctIndex":2,"points":1}]'>${safe(questions)}</textarea>
+ <p class="muted">Pou kesyon ouvè, mete type "ouverte", question ak points. Kesyon ouvè mande koreksyon pwofesè.</p>
+ <button class="success" onclick="saveItem()">Enregistrer en brouillon</button>
+ <button onclick="cancelEdit()">Annuler</button>
+ ${isAdmin&&id?`<button class="warning" onclick="togglePublish('${name}','${id}',true)">Publier</button>`:""}
+ <button class="primary" onclick="generateAI('${name}')">✨ Préparer avec IA</button>
+ </div>`;
 };
 
-window.saveCollectionItem = async function(name){
-  const titreInput = document.getElementById("itemTitle");
-  const niveauInput = document.getElementById("itemLevel");
-  const matiereInput = document.getElementById("itemSubject");
-  const descInput = document.getElementById("itemDesc");
+window.cancelEdit=()=>{$("addArea").innerHTML="";editingId=null;editingCollection=null;};
 
-  const titre = titreInput ? titreInput.value.trim() : "";
-  const niveau = niveauInput ? niveauInput.value : "";
-  const matiere = matiereInput ? matiereInput.value : "";
-  const description = descInput ? descInput.value.trim() : "";
-
-  if(!titre){ alert("Le titre est obligatoire."); return; }
-
-  try {
-    await addDoc(collection(db, name), {
-      titre,
-      nom: titre,
-      niveau,
-      matiere,
-      description,
-      contenu: description,
-      publie: true,
-      createdAt: serverTimestamp(),
-      createdBy: currentUser ? currentUser.uid : ""
-    });
-    alert("Enregistré avec succès !");
-    showPage(name);
-  } catch(e) {
-    alert("Erreur lors de l'enregistrement : " + e.message);
+window.saveItem=async()=>{
+ const titre=$("fTitle").value.trim();
+ if(!titre){alert("Le titre est obligatoire.");return;}
+ let questions=[];
+ try{questions=$("fQuestions").value.trim()?JSON.parse($("fQuestions").value):[];}
+ catch(e){alert("Le JSON des questions est incorrect.");return;}
+ if(!Array.isArray(questions)){alert("Les questions doivent être une liste JSON.");return;}
+ const data={
+  titre,nom:titre,niveau:$("fLevel").value,matiere:$("fSubject").value,
+  description:$("fDescription").value.trim(),
+  contenu:$("fDescription").value.trim(),questions,
+  updatedAt:serverTimestamp()
+ };
+ try{
+  if(editingId){
+   await updateDoc(doc(db,editingCollection,editingId),data);
+  }else{
+   await addDoc(collection(db,editingCollection),{
+    ...data,publie:false,createdAt:serverTimestamp(),
+    createdByUid:currentUser.uid,createdByName:currentUser.displayName||currentUser.email
+   });
   }
+  alert("Contenu enregistré comme brouillon.");
+  const n=editingCollection;cancelEdit();await showPage(n);
+ }catch(e){alert("Erreur : "+e.message);}
 };
 
-window.startEvaluation = async function(id, data, type){
-  const area = document.getElementById("pageContent");
-  if(!area) return;
-  area.innerHTML = `
-    <div class="formbox">
-      <h2>${data.titre || data.nom}</h2>
-      <p class="muted">Niveau : ${data.niveau || 'Tous'} | Matière : ${data.matiere || 'Générale'}</p>
-      <p>${data.description || data.contenu || "Répondez aux questions ci-dessous."}</p>
-      <hr style="margin:20px 0;border:0;border-top:1px solid #eee;">
-      <label>Votre réponse ou solution :</label>
-      <textarea id="userAnswer" placeholder="Rédigez votre réponse ici..."></textarea>
-      <button class="success" onclick="submitEvaluation('${id}', '${type}')">Soumettre la copie</button>
-      <button class="primary" onclick="showPage('${type}')">Retour</button>
-    </div>`;
+window.togglePublish=async(name,id,value)=>{
+ if(!isAdmin)return;
+ try{await updateDoc(doc(db,name,id),{publie:value,updatedAt:serverTimestamp()});await showPage(name);}
+ catch(e){alert("Erreur : "+e.message);}
+};
+window.removeItem=async(name,id)=>{
+ if(!isAdmin||!confirm("Supprimer définitivement ce contenu ?"))return;
+ try{await deleteDoc(doc(db,name,id));await showPage(name);}
+ catch(e){alert("Erreur : "+e.message);}
 };
 
-window.submitEvaluation = async function(id, type){
-  const ansInput = document.getElementById("userAnswer");
-  const reponse = ansInput ? ansInput.value.trim() : "";
-  if(!reponse){ alert("Veuillez saisir une réponse."); return; }
+window.generateAI=async(name)=>{
+ if(!isAdmin){alert("La génération IA est réservée à l'administrateur.");return;}
+ if(!AI_WORKER_URL.startsWith("https://")){alert("Le Worker IA n'est pas encore configuré.");return;}
+ const titre=$("fTitle").value.trim();
+ const niveau=$("fLevel").value,matiere=$("fSubject").value;
+ if(!niveau||!matiere){alert("Choisissez le niveau et la matière avant la génération.");return;}
+ const b=document.querySelector("#addArea button.success");
+ if(b){b.disabled=true;b.textContent="Préparation IA...";}
+ try{
+  const token=await currentUser.getIdToken();
+  const response=await fetch(AI_WORKER_URL,{
+   method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+   body:JSON.stringify({action:"generate",type:name,titre,niveau,matiere,description:$("fDescription").value})
+  });
+  const result=await response.json();
+  if(!response.ok)throw new Error(result.error||"Erreur IA");
+  $("fTitle").value=result.titre||titre||"Contenu proposé par IA";
+  $("fDescription").value=result.contenu||result.description||"";
+  $("fQuestions").value=JSON.stringify(result.questions||[],null,2);
+  alert("Proposition IA reçue. Vérifiez les références MENFP et le contenu avant d'enregistrer.");
+ }catch(e){alert("IA indisponible : "+e.message);}
+ finally{if(b){b.disabled=false;b.textContent="Enregistrer en brouillon";}}
+};
 
-  try {
-    await addDoc(collection(db, "resultats"), {
-      uid: currentUser.uid,
-      eleveNom: currentUser.displayName || currentUser.email,
-      evaluationId: id,
-      type: type,
-      titre: type === "exercices" ? "Exercice soumis" : "Examen soumis",
-      reponse,
-      note: 18,
-      sur: 20,
-      statut: "Corrigé automatiquement",
-      createdAt: serverTimestamp()
-    });
-    alert("Copie soumise avec succès ! Note attribuée : 18/20.");
-    showPage("resultats");
-  } catch(e) {
-    alert("Erreur lors de la soumission : " + e.message);
+window.startEvaluation=(id,data,type)=>{
+ const qs=Array.isArray(data.questions)?data.questions:[];
+ if(!qs.length){alert("Cette activité ne contient pas encore de questions structurées.");return;}
+ const area=$("pageContent");
+ area.innerHTML=`<h2>${safe(data.titre)}</h2><p>${safe(data.description||"")}</p>
+ <form id="evaluationForm">
+ ${qs.map((q,i)=>`<div class="question"><b>${i+1}. ${safe(q.question||"Question")}</b>
+ ${q.type==="qcm"?(q.options||[]).map((o,j)=>`<label style="display:block;font-weight:normal"><input style="width:auto" type="radio" name="q${i}" value="${j}"> ${safe(o)}</label>`).join(""):`<textarea name="q${i}" placeholder="Votre réponse..."></textarea>`}
+ </div>`).join("")}
+ <button class="success" type="submit">Soumettre</button>
+ <button type="button" onclick="showPage('${type}')">Retour</button>
+ </form>`;
+ $("evaluationForm").onsubmit=e=>submitEvaluation(e,id,data,type);
+};
+
+async function submitEvaluation(e,id,data,type){
+ e.preventDefault();
+ const qs=data.questions||[];
+ let score=0,total=0,openCount=0;
+ const answers=[];
+ qs.forEach((q,i)=>{
+  const points=Number(q.points)||1;total+=points;
+  if(q.type==="qcm"){
+   const selected=document.querySelector(`input[name="q${i}"]:checked`);
+   const answer=selected?Number(selected.value):null;
+   answers.push({question:q.question,reponse:answer===null?"":(q.options||[])[answer]||"",correct:answer===Number(q.correctIndex),points});
+   if(answer===Number(q.correctIndex))score+=points;
+  }else{
+   const field=document.querySelector(`[name="q${i}"]`);
+   answers.push({question:q.question,reponse:field?field.value.trim():"",points,type:"ouverte"});
+   openCount++;
   }
-};
+ });
+ const statut=openCount?"en_attente_correction":"corrige_qcm";
+ try{
+  await addDoc(collection(db,"resultats"),{
+   uid:currentUser.uid,eleveNom:currentUser.displayName||currentUser.email,
+   evaluationId:id,type,titre:data.titre||type,answers,
+   note:openCount?null:score,sur:total,statut,
+   createdAt:serverTimestamp()
+  });
+  await addDoc(collection(db,"progression"),{
+   uid:currentUser.uid,evaluationId:id,type,titre:data.titre||type,
+   score:openCount?null:score,sur:total,createdAt:serverTimestamp()
+  });
+  $("pageContent").innerHTML=`<div class="formbox"><h2>Copie soumise</h2>
+  <p>${openCount?"Les réponses ouvertes attendent une correction par l'enseignant.":"Résultat : "+score+" / "+total}</p>
+  <button class="primary" onclick="showPage('resultats')">Voir mes résultats</button></div>`;
+ }catch(err){alert("Erreur : "+err.message);}
+}
 
 async function renderResults(area){
-  area.innerHTML = `<h1>📊 Résultats et Notes</h1><div id="resultsList">Chargement des résultats...</div>`;
-  try {
-    const q = isAdmin ? collection(db, "resultats") : query(collection(db, "resultats"), where("uid", "==", currentUser.uid));
-    const snap = await getDocs(q);
-    const list = document.getElementById("resultsList");
-    if(!list) return;
-
-    if(snap.empty){
-      list.innerHTML = "<p class='muted'>Aucun résultat enregistré pour le moment.</p>";
-      return;
-    }
-
-    let html = `<div class="table-container"><table><tr><th>Élève</th><th>Évaluation</th><th>Note</th><th>Statut</th><th>Date</th></tr>`;
-    snap.forEach(d => {
-      const r = d.data();
-      html += `<tr>
-        <td>${r.eleveNom || 'Élève'}</td>
-        <td>${r.titre || 'Évaluation'}</td>
-        <td><b>${r.note ?? '-'}/${r.sur ?? '20'}</b></td>
-        <td><span class="badge publie">${r.statut || 'Validé'}</span></td>
-        <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'Récemment'}</td>
-      </tr>`;
-    });
-    html += `</table></div>`;
-    list.innerHTML = html;
-  } catch(e) {
-    const list = document.getElementById("resultsList");
-    if(list) list.textContent = "Erreur : " + e.message;
-  }
+ area.innerHTML="<h1>📊 Résultats</h1><div id='resultsList'>Chargement...</div>";
+ try{
+  const q=isAdmin?collection(db,"resultats"):query(collection(db,"resultats"),where("uid","==",currentUser.uid));
+  const snap=await getDocs(q),list=$("resultsList");
+  if(snap.empty){list.textContent="Aucun résultat pour le moment.";return;}
+  let html="<div class='table-container'><table><tr><th>Élève</th><th>Évaluation</th><th>Note</th><th>Statut</th></tr>";
+  snap.forEach(d=>{
+   const r=d.data();
+   html+=`<tr><td>${safe(r.eleveNom)}</td><td>${safe(r.titre)}</td>
+   <td>${r.note===null||r.note===undefined?"En attente":safe(r.note)+" / "+safe(r.sur)}</td>
+   <td>${safe(r.statut)}</td></tr>`;
+  });
+  list.innerHTML=html+"</table></div>";
+ }catch(e){$("resultsList").textContent="Erreur : "+e.message;}
 }
 
 async function renderProgression(area){
-  area.innerHTML = `
-    <h1>📈 Tableau de Progression</h1>
-    <div class="cards">
-      <div class="card"><h3>Leçons terminées</h3><p style="font-size:24px;font-weight:bold;color:var(--blue)">12</p></div>
-      <div class="card"><h3>Exercices validés</h3><p style="font-size:24px;font-weight:bold;color:var(--green)">8</p></div>
-      <div class="card"><h3>Moyenne générale</h3><p style="font-size:24px;font-weight:bold;color:var(--blue2)">16.5 / 20</p></div>
-    </div>
-    <div class="formbox" style="margin-top:20px;">
-      <h3>Historique d'apprentissage</h3>
-      <p>Votre régularité est excellente. Continuez à consulter les leçons de mathématiques et de français.</p>
-    </div>`;
+ area.innerHTML="<h1>📈 Ma progression</h1><div id='progressList'>Chargement...</div>";
+ try{
+  const snap=await getDocs(query(collection(db,"progression"),where("uid","==",currentUser.uid)));
+  $("progressList").innerHTML=snap.empty?"Aucune activité enregistrée.":snap.docs.map(d=>{
+   const x=d.data();return `<div class="item"><b>${safe(x.titre)}</b><p>${x.score===null?"Correction en attente":safe(x.score)+" / "+safe(x.sur)}</p></div>`;
+  }).join("");
+ }catch(e){$("progressList").textContent="Erreur : "+e.message;}
 }
 
 async function renderAdmin(area){
-  area.innerHTML = `
-    <h1>⚙️ Panneau d'Administration</h1>
-    <p class="muted">Gestion complète des utilisateurs et de la plateforme.</p>
-    <div class="cards">
-      <div class="card"><h3>👥 Utilisateurs</h3><p>Approuver les comptes en attente.</p><button class="primary" onclick="loadAdminUsers()">Gérer les utilisateurs</button></div>
-      <div class="card"><h3>🎓 Niveaux & Matières</h3><p>Configuration académique.</p><button class="primary" onclick="showPage('niveaux')">Gérer</button></div>
-      <div class="card"><h3>📚 Contenus</h3><p>Cours et leçons MENFP.</p><button class="primary" onclick="showPage('cours')">Gérer</button></div>
-    </div>
-    <div id="adminContent" style="margin-top:20px;"></div>`;
+ area.innerHTML=`<h1>⚙️ Administration</h1>
+ <div class="cards">
+ <div class="card"><h3>Utilisateurs</h3><button class="primary" onclick="loadUsers()">Gérer</button></div>
+ <div class="card"><h3>Contenus académiques</h3><button class="primary" onclick="showPage('cours')">Gérer les cours</button></div>
+ <div class="card"><h3>Exercices et examens</h3><button class="primary" onclick="showPage('exercices')">Gérer</button></div>
+ </div><div id="adminContent"></div>`;
 }
-
-window.loadAdminUsers = async function(){
-  const container = document.getElementById("adminContent");
-  if(!container) return;
-  container.innerHTML = "<h3>Gestion des Utilisateurs</h3><p>Chargement...</p>";
-  try {
-    const snap = await getDocs(collection(db, "users"));
-    if(snap.empty){ container.innerHTML += "<p>Aucun utilisateur.</p>"; return; }
-
-    let html = `<div class="table-container"><table><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th><th>Action</th></tr>`;
-    snap.forEach(d => {
-      const u = d.data();
-      html += `<tr>
-        <td>${u.nom || '-'}</td>
-        <td>${u.email || '-'}</td>
-        <td><b>${u.role || 'eleve'}</b></td>
-        <td><span class="badge ${u.statut === 'actif' ? 'actif' : 'attente'}">${u.statut || 'attente'}</span></td>
-        <td>
-          ${u.statut !== 'actif' ? `<button class="success" style="padding:6px 10px;" onclick="approveUser('${d.id}')">Activer</button>` : 'Actif'}
-          <button class="danger" style="padding:6px 10px;margin-left:5px;" onclick="makeTeacher('${d.id}')">Prof</button>
-        </td>
-      </tr>`;
-    });
-    html += `</table></div>`;
-    container.innerHTML = html;
-  } catch(e) {
-    container.textContent = "Erreur : " + e.message;
-  }
+window.loadUsers=async()=>{
+ if(!isAdmin)return;
+ const area=$("adminContent");area.textContent="Chargement...";
+ try{
+  const snap=await getDocs(collection(db,"users"));
+  area.innerHTML="<h2>Utilisateurs</h2><div class='table-container'><table><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th><th>Actions</th></tr>"+
+  snap.docs.map(d=>{
+   const u=d.data();
+   return `<tr><td>${safe(u.nom)}</td><td>${safe(u.email)}</td><td>${safe(u.role)}</td><td>${safe(u.statut)}</td>
+   <td><button class="success" onclick="setUser('${d.id}','actif','${u.role||"eleve"}')">Activer</button>
+   <button class="primary" onclick="setUser('${d.id}','actif','professeur')">Professeur</button>
+   <button class="warning" onclick="setUser('${d.id}','attente','${u.role||"eleve"}')">Suspendre</button></td></tr>`;
+  }).join("")+"</table></div>";
+ }catch(e){area.textContent="Erreur : "+e.message;}
+};
+window.setUser=async(uid,statut,role)=>{
+ if(!isAdmin||uid===ADMIN_UID){alert("Action non autorisée.");return;}
+ try{await updateDoc(doc(db,"users",uid),{statut,role});await loadUsers();}
+ catch(e){alert("Erreur : "+e.message);}
 };
 
-window.approveUser = async function(uid){
-  try {
-    await updateDoc(doc(db, "users", uid), { statut: "actif" });
-    alert("Compte activé avec succès.");
-    loadAdminUsers();
-  } catch(e) { alert("Erreur : " + e.message); }
-};
-
-window.makeTeacher = async function(uid){
-  try {
-    await updateDoc(doc(db, "users", uid), { role: "professeur", statut: "actif" });
-    alert("Rôle professeur attribué.");
-    loadAdminUsers();
-  } catch(e) { alert("Erreur : " + e.message); }
-};
-
-async function renderTeacherSpace(area){
-  area.innerHTML = `
-    <h1>👨‍🏫 Espace Enseignant</h1>
-    <p>Créez vos cours, leçons et exercices pour vos élèves haïtiens.</p>
-    <div class="cards">
-      <div class="card"><h3>✍️ Créer un exercice</h3><button class="primary" onclick="showAddForm('exercices')">Ajouter</button></div>
-      <div class="card"><h3>📋 Créer un examen</h3><button class="primary" onclick="showAddForm('examens')">Ajouter</button></div>
-      <div class="card"><h3>📚 Rédiger une leçon</h3><button class="primary" onclick="showAddForm('lecons')">Ajouter</button></div>
-    </div>`;
-}
-
-getRedirectResult(auth).catch(e => console.log(e));
+getRedirectResultSafe();
+async function getRedirectResultSafe(){/* Auth state listener handles redirect sign-in. */}
 </script>
 </body>
 </html>
